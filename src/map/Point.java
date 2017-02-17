@@ -5,9 +5,9 @@ public class Point {
 	private int coordX = 0;
 	private int coordY = 0;
 	
-	public Point(int coordX, int coordY) {
-		this.coordX = coordX;
-		this.coordY = coordY;
+	public Point(int x, int y) {
+		this.coordX = x;
+		this.coordY = y;
 	}
 	
 	public int getCoordX() {
