@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class Road {
 
 	private String name = "";
-	private int sectionID = 0;
+	private String sectionID = "";
 	private ArrayList<Point> points = new ArrayList<Point>();
 	
-	public Road(String n, int id, ArrayList<Point> p) {
+	public Road(String n, String id, ArrayList<Point> p) {
 		this.name = n;
 		this.sectionID = id;
 		this.points = p;
@@ -22,5 +22,9 @@ public class Road {
 			length += c_point.getDistance(n_point);
 		}
 		return length;
+	}
+	
+	public String getSectionID() {
+		return this.sectionID;
 	}
 }
