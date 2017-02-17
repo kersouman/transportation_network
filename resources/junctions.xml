@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<junctions>
+	<junction id="J1">
+		<section id="RFP1">q</section>
+		<section id="RJC1">h</section>
+	</junction>
+	<junction id="J2">
+		<section id="RJC1">q</section>
+		<section id="RJC2">h</section>
+	</junction>
+	<junction id="J3">
+		<section id="RFP1">h</section>
+		<section id="RJC2">q</section>
+		<section id="RJC3">h</section>
+	</junction>
+</junctions>

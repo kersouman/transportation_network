@@ -3,8 +3,6 @@
 	<road>
 		<name>Rue Francis Perrin</name>
 		<section id="RFP1">
-			<junction side="-1", id="RJC1"></junction>
-			<junction side="1", id="RJC3"></junction>
 			<coordinate lat="48.710701888492636", lng="2.1590456708435113"></coordinate>
 			<coordinate lat="48.7112766", lng="2.159053999999969"></coordinate>
 			<coordinate lat="48.712089999999996", lng="2.159077400000001"></coordinate>
@@ -51,8 +49,6 @@
 	<road>
 		<name>Rue Joliot-Curie</name>
 		<section id="RJC1">
-			<junction side="1", id="RFP1"></junction>
-			<junction side="-1", id="RJC2"></junction>
 			<coordinate lat="48.714066214146875", lng="2.1725240623956097"></coordinate>
 			<coordinate lat="48.7139709", lng="2.1726443999999674"></coordinate>
 			<coordinate lat="48.71391500000001", lng="2.172690800000055"></coordinate>
@@ -137,9 +133,6 @@
 			<coordinate lat="48.7106575183593", lng="2.1625203296747486"></coordinate>
 		</section>
 		<section id="RJC2">
-			<junction side="1", id="RJC1"></junction>
-			<junction side="-1", id="RJC3"></junction>
-			<junction side="-1", id="RFP1"></junction>
 			<coordinate lat="48.71073056844484", lng="2.1624186079035326"></coordinate>
 			<coordinate lat="48.710974099999994", lng="2.16189559999998"></coordinate>
 			<coordinate lat="48.71103139346049", lng="2.1617985932958845"></coordinate>
@@ -155,8 +148,6 @@
 			<coordinate lat="48.710647938495754", lng="2.1588829882089158"></coordinate>
 		</section>
 		<section id="RFP1">
-			<junction side="1", id="RFP1"></junction>
-			<junction side="1", id="RJC2"></junction>
 			<coordinate lat="48.71064218512569", lng="2.1588574568017975"></coordinate>
 			<coordinate lat="48.71051920000001", lng="2.158311700000013"></coordinate>
 			<coordinate lat="48.7104863", lng="2.1581194000000323"></coordinate>

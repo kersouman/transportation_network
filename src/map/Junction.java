@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class Junction {
 
-	private ArrayList<Road> roads = new ArrayList<Road>();
+	private ArrayList<String> jointSections = new ArrayList<String>();
 	
-	public Junction(ArrayList<Road> r) {
-		this.roads = r;
+	public Junction(ArrayList<String> j) {
+		this.jointSections = j;
 	}
 	
 }
