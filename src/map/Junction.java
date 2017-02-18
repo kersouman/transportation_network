@@ -1,13 +1,16 @@
 package map;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Junction {
 
-	private ArrayList<String> jointSections = new ArrayList<String>();
+	private List<String[]> jointSections = new ArrayList<String[]>();
+	private String junctionID = "";
 	
-	public Junction(ArrayList<String> j) {
+	public Junction(List<String[]> j, String id) {
 		this.jointSections = j;
+		this.junctionID = id;
 	}
 	
 }
