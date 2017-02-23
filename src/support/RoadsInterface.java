@@ -53,8 +53,8 @@ public class RoadsInterface {
 	private static List<Point> generatePoints(List<Element> l_coordinates) {
 		List<Point> al_points = new ArrayList<Point>();
 		for (Element element: l_coordinates) {
-			float lat = Float.parseFloat(element.getAttributeValue("lat"));
-			float lng = Float.parseFloat(element.getAttributeValue("lng"));
+			float lat = Float.parseFloat(element.getChildText("lat"));
+			float lng = Float.parseFloat(element.getChildText("lng"));
 			
 			al_points.add(new Point(lat, lng));
 		}
