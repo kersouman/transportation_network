@@ -13,4 +13,8 @@ public class Road {
 		this.sections = s;
 	}
 	
+	public List<Section> getSections() {
+		return this.sections;
+	}
+	
 }

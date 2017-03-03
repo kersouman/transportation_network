@@ -23,4 +23,8 @@ public class Section {
 		return length;
 	}
 	
+	public String getSectionID() {
+		return this.sectionID;
+	}
+	
 }
