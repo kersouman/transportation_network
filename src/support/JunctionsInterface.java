@@ -12,10 +12,12 @@ import org.jdom2.input.SAXBuilder;
 
 import map.Junction;
 
-public class JunctionsInterface {
+public class JunctionsInterface 
+{
 
 	public static List<Junction> generateJunctions(String junctions)
-			throws IOException, JDOMException {
+			throws IOException, JDOMException 
+	{
 		SAXBuilder build = new SAXBuilder();
 		File xml = new File("./resources/" + junctions + ".xml");
 		Document doc = (Document)build.build(xml);
@@ -24,9 +26,12 @@ public class JunctionsInterface {
 		return generateJunctions(root.getChildren("junction"));
 	}
 	
-	private static List<Junction> generateJunctions(List<Element> l_junctions) {
+	private static List<Junction> generateJunctions(List<Element> l_junctions) 
+	{
 		List<Junction> al_junction = new ArrayList<Junction>();
-		for (Element element: l_junctions) {
+		
+		for (Element element: l_junctions) 
+		{
 			List<String[]> al_jointSections =
 					generateJointSections(element.getChildren("section"));
 			String junctionID = element.getAttributeValue("id");
@@ -36,9 +41,12 @@ public class JunctionsInterface {
 		return al_junction;
 	}
 	
-	private static List<String[]> generateJointSections(List<Element> l_js) {
+	private static List<String[]> generateJointSections(List<Element> l_js) 
+	{
 		List<String[]> al_jointSections = new ArrayList<String[]>();
-		for (Element element: l_js) {
+		
+		for (Element element: l_js) 
+		{
 			String[] jointSection = {element.getAttributeValue("id"),
 					element.getText()};
 			

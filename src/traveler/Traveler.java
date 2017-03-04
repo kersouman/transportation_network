@@ -3,6 +3,7 @@ package traveler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -12,67 +13,116 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import map.Junction;
 import support.Dijkstra;
 
-public class Traveler extends Agent {
+@SuppressWarnings("serial")
+public class Traveler extends Agent 
+{
 	
 	private static int CPT_TRAVELER = 0;
-	
-	private HashMap<String, Object> attributes = new HashMap<String, Object>();
-	
-	public Traveler(Agenda agenda, Dijkstra dijkstra) {
-		this.attributes.put("id", new Integer(Traveler.CPT_TRAVELER++));
-		this.attributes.put("state", new Integer(0));
-		this.attributes.put("agenda", agenda);
-		this.attributes.put("dijkstra", dijkstra);
+
+	private Map<Integer, Junction> agenda = new HashMap<Integer, Junction>();
+	private List<Junction> path = new ArrayList<Junction>();
+	private DFAgentDescription clock = null;
+	private int state = -1;
+	private int id = -1;
+	private Dijkstra dijkstra = null;
+
+	public Traveler(Dijkstra dijkstra, HashMap<Integer, Junction> agenda) 
+	{
+		this.id 		= Traveler.CPT_TRAVELER++;
+		this.state 		= 0;
+		this.agenda		= agenda;
+		this.dijkstra 	= dijkstra;
 	}
 	
-	public void getShortestPath(Dijkstra dijkstra, 
-			Junction origin, Junction destination) {
-		dijkstra.execute(origin, destination);
-		this.attributes.put("path", dijkstra.getPath(destination));
+	public void getShortestPath(Junction origin, Junction destination) 
+	{
+		this.dijkstra.execute(origin, destination);
+		this.path = this.dijkstra.getPath(destination);
 	}
 	
-	public void setup() {
-		System.out.println("I am the traveler " + this.getAttribute("id"));
+	public void setup() 
+	{
+		System.out.println("I am the traveler " + this.id);
 		this.setDescriptionService();
 		this.setClock();
-		this.addBehaviour(new TravelerTravelling());
+		this.addBehaviour(new Travel());
 	}
 	
-	private void setDescriptionService() {
+	private void setDescriptionService() 
+	{
 		ServiceDescription sd = new ServiceDescription();
-		sd.setName("Traveler" + this.attributes.get("id"));
+		sd.setName("Traveler" + this.id);
 		sd.setType("traveler");
 		
 		DFAgentDescription dfad = new DFAgentDescription();
 		dfad.setName(this.getAID());
 		dfad.addServices(sd);
-		try {
+		try 
+		{
 			DFService.register(this, dfad);
-		} catch (FIPAException e) {
+		} 
+		catch (FIPAException e) 
+		{
 			e.printStackTrace();
 		}
 	}
 	
-	private void setClock() {
+	private void setClock() 
+	{
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("clock");
 		DFAgentDescription dfad = new DFAgentDescription();
 		dfad.addServices(sd);
 		
-		try {
+		try 
+		{
 			DFAgentDescription[] clock = DFService.search(this, dfad);
-			this.attributes.put("clock", clock[0]);
-		} catch (FIPAException e) {
+			this.clock = clock[0];
+		} 
+		catch (FIPAException e) 
+		{
 			e.printStackTrace();
 		}
 	}
-	
-	public Object getAttribute(String attribute) {
-		return this.attributes.get(attributes);
+
+	public List<Junction> getPath() 
+	{
+		return path;
 	}
-	
-	public void setAttribute(String attribute, Object value) {
-		this.attributes.put(attribute, value);
+
+	public void setPath(List<Junction> path)
+	{
+		this.path = path;
+	}
+
+	public int getState() 
+	{
+		return state;
+	}
+
+	public void setState(int state)
+	{
+		this.state = state;
+	}
+
+	public Map<Integer, Junction> getAgenda() 
+	{
+		return agenda;
+	}
+
+	public DFAgentDescription getClock() 
+	{
+		return clock;
+	}
+
+	public int getId() 
+	{
+		return id;
+	}
+
+	public Dijkstra getDijkstra() 
+	{
+		return dijkstra;
 	}
 	
 }

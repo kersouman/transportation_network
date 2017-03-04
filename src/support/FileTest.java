@@ -1,10 +1,8 @@
 package support;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
 
 public class FileTest {
 

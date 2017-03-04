@@ -14,10 +14,12 @@ import map.Point;
 import map.Road;
 import map.Section;
 
-public class RoadsInterface {
+public class RoadsInterface 
+{
 	
 	public static List<Road> generateRoads(String roads)
-			throws IOException, JDOMException {
+			throws IOException, JDOMException 
+	{
 		SAXBuilder build = new SAXBuilder();
 		File xml = new File("./resources/" + roads + ".xml");
 		Document doc = (Document)build.build(xml);
@@ -26,9 +28,12 @@ public class RoadsInterface {
 		return generateRoads(root.getChildren("road"));
 	}
 	
-	private static List<Road> generateRoads(List<Element> l_roads) {
+	private static List<Road> generateRoads(List<Element> l_roads) 
+	{
 		List<Road> al_roads = new ArrayList<Road>();
-		for (Element element: l_roads) {
+		
+		for (Element element: l_roads) 
+		{
 			List<Section> al_section =
 					generateSections(element.getChildren("section"));
 			String name = element.getChildText("name");
@@ -38,9 +43,12 @@ public class RoadsInterface {
 		return al_roads;
 	}
 	
-	private static List<Section> generateSections(List<Element> l_sections) {
+	private static List<Section> generateSections(List<Element> l_sections) 
+	{
 		List<Section> al_section = new ArrayList<Section>();
-		for (Element element: l_sections) {
+		
+		for (Element element: l_sections) 
+		{
 			List<Point> al_point =
 					generatePoints(element.getChildren("coordinates"));
 			String sectionID = element.getAttributeValue("id");
@@ -50,9 +58,12 @@ public class RoadsInterface {
 		return al_section;
 	}
 	
-	private static List<Point> generatePoints(List<Element> l_coordinates) {
+	private static List<Point> generatePoints(List<Element> l_coordinates) 
+	{
 		List<Point> al_points = new ArrayList<Point>();
-		for (Element element: l_coordinates) {
+		
+		for (Element element: l_coordinates) 
+		{
 			float lat = Float.parseFloat(element.getChildText("lat"));
 			float lng = Float.parseFloat(element.getChildText("lng"));
 			
