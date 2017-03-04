@@ -11,7 +11,6 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import map.Junction;
-import support.Dijkstra;
 
 @SuppressWarnings("serial")
 public class Traveler extends Agent 
@@ -24,20 +23,12 @@ public class Traveler extends Agent
 	private DFAgentDescription clock = null;
 	private int state = -1;
 	private int id = -1;
-	private Dijkstra dijkstra = null;
 
-	public Traveler(Dijkstra dijkstra, HashMap<Integer, Junction> agenda) 
+	public Traveler(HashMap<Integer, Junction> agenda) 
 	{
 		this.id 		= Traveler.CPT_TRAVELER++;
 		this.state 		= 0;
 		this.agenda		= agenda;
-		this.dijkstra 	= dijkstra;
-	}
-	
-	public void getShortestPath(Junction origin, Junction destination) 
-	{
-		this.dijkstra.execute(origin, destination);
-		this.path = this.dijkstra.getPath(destination);
 	}
 	
 	public void setup() 
@@ -87,7 +78,7 @@ public class Traveler extends Agent
 
 	public List<Junction> getPath() 
 	{
-		return path;
+		return this.path;
 	}
 
 	public void setPath(List<Junction> path)
@@ -97,7 +88,7 @@ public class Traveler extends Agent
 
 	public int getState() 
 	{
-		return state;
+		return this.state;
 	}
 
 	public void setState(int state)
@@ -107,22 +98,17 @@ public class Traveler extends Agent
 
 	public Map<Integer, Junction> getAgenda() 
 	{
-		return agenda;
+		return this.agenda;
 	}
 
 	public DFAgentDescription getClock() 
 	{
-		return clock;
+		return this.clock;
 	}
 
 	public int getId() 
 	{
-		return id;
-	}
-
-	public Dijkstra getDijkstra() 
-	{
-		return dijkstra;
+		return this.id;
 	}
 	
 }
