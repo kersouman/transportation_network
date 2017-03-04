@@ -9,6 +9,7 @@ import map.Junction;
 import map.Map;
 
 public class Dijkstra {
+	
 	private final List<Junction> nodes;
     private final HashMap<String, Float> lengths;
     private ArrayList<Junction> settledNodes = new ArrayList<Junction>();
@@ -116,7 +117,6 @@ public class Dijkstra {
         }
         return neighbors;
 	}
-	
 	
 	private boolean isSettled(Junction Junction) {
 	        return settledNodes.contains(Junction);
