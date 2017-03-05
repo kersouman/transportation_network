@@ -121,6 +121,4 @@ public class Clock extends Agent
 		this.min = min;
 	}
 	
-	
-	
 }

@@ -1,6 +1,7 @@
 package traveler;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
@@ -15,18 +16,18 @@ public class Travel extends Behaviour
 		switch((Integer)((Traveler)myAgent).getState())
 		{
 		case 0:
+
+			((Traveler)myAgent).setState(1);
+			break;
+		case 1:
 			try 
 			{
-				this.clockRegistration();
+				this.gpsPathRequest();
 			} 
 			catch (IOException e) 
 			{
 				e.printStackTrace();
 			}
-			((Traveler)myAgent).setState(1);
-			break;
-		case 1:
-			
 			break;
 		default:
 			((Traveler)myAgent).setState(0);
@@ -34,6 +35,23 @@ public class Travel extends Behaviour
 		}
 	}
 
+	private void gpsPathRequest() 
+			throws IOException
+	{
+		ACLMessage gpsRequest = new ACLMessage(ACLMessage.REQUEST);
+		gpsRequest.addReceiver(
+				((Traveler)myAgent).getGPS().get(0).getName());
+		gpsRequest.setContent("Path request");
+		gpsRequest.setContentObject(
+				((Traveler)myAgent).getAgenda().get(
+						Collections.min(
+								((Traveler)myAgent).getAgenda().keySet())));
+		myAgent.send(gpsRequest);		
+	}
+	
+	/*
+	 * Not the right way to do that
+	 */
 	private void clockRegistration() 
 			throws IOException
 	{

@@ -18,18 +18,18 @@ public class Traveler extends Agent
 	
 	private static int CPT_TRAVELER = 0;
 
-	private Map<Integer, Junction> agenda = new HashMap<Integer, Junction>();
 	private List<DFAgentDescription> gps = new ArrayList<DFAgentDescription>();
 	private List<Junction> path = new ArrayList<Junction>();
+	private Map<Integer, Junction[]> agenda = null;
 	private DFAgentDescription clock = null;
 	private int state = -1;
 	private int id = -1;
 
-	public Traveler(HashMap<Integer, Junction> agenda) 
+	public Traveler(HashMap<Integer, Junction[]> agenda) 
 	{
 		this.id 		= Traveler.CPT_TRAVELER++;
 		this.state 		= 0;
-		this.agenda		= agenda;
+		this.agenda		= new HashMap<Integer, Junction[]>(agenda);
 	}
 	
 	public void setup() 
@@ -120,7 +120,7 @@ public class Traveler extends Agent
 		this.state = state;
 	}
 
-	public Map<Integer, Junction> getAgenda() 
+	public Map<Integer, Junction[]> getAgenda() 
 	{
 		return this.agenda;
 	}
@@ -130,9 +130,14 @@ public class Traveler extends Agent
 		return this.clock;
 	}
 
-	public int getId() 
+	public int getId()
 	{
 		return this.id;
+	}
+	
+	public List<DFAgentDescription> getGPS()
+	{
+		return this.gps;
 	}
 	
 }
