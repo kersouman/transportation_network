@@ -19,6 +19,7 @@ public class Traveler extends Agent
 	private static int CPT_TRAVELER = 0;
 
 	private Map<Integer, Junction> agenda = new HashMap<Integer, Junction>();
+	private List<DFAgentDescription> gps = new ArrayList<DFAgentDescription>();
 	private List<Junction> path = new ArrayList<Junction>();
 	private DFAgentDescription clock = null;
 	private int state = -1;
@@ -36,6 +37,7 @@ public class Traveler extends Agent
 		System.out.println("I am the traveler " + this.id);
 		this.setDescriptionService();
 		this.setClock();
+		this.setGPS();
 		this.addBehaviour(new Travel());
 	}
 	
@@ -71,6 +73,28 @@ public class Traveler extends Agent
 			this.clock = clock[0];
 		} 
 		catch (FIPAException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private void setGPS()
+	{
+		ServiceDescription sd = new ServiceDescription();
+		sd.setType("gps");
+		DFAgentDescription dfad = new DFAgentDescription();
+		dfad.addServices(sd);
+		
+		try
+		{
+			DFAgentDescription[] gps = DFService.search(this, dfad);
+		
+			for (DFAgentDescription g: gps)
+			{
+				this.gps.add(g);
+			}
+		}
+		catch (FIPAException e)
 		{
 			e.printStackTrace();
 		}

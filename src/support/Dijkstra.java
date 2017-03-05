@@ -4,26 +4,28 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import map.Junction;
-import map.Map;
 
 public class Dijkstra
 {
 
-	private HashMap<Junction, Junction> 
+	private Map<Junction, Junction> 
 			predecessors 	= new HashMap<Junction, Junction>();
-	private HashMap<String, Float>
+	private Map<String, Float>
 			distances 	 	= new HashMap<String, Float>();
-	private ArrayList<Junction>	
+	private List<Junction>	
 			unsettledNodes	= new ArrayList<Junction>(),
 			settledNodes 	= new ArrayList<Junction>();
-	private Map map 		= null;
+	private List<Junction> vertices	= null;
+	private Map<String, Float> locDistances = null;
 
 
-	public Dijkstra(Map map) 
+	public Dijkstra(List<Junction> vertices, Map<String, Float> locDistances) 
 	{
-		this.map = map;
+		this.vertices 		= new ArrayList<Junction>(vertices);
+		this.locDistances 	= new HashMap<String, Float>(locDistances);
 	}
 
 	public void execute (Junction destination, Junction origin)
@@ -83,8 +85,8 @@ public class Dijkstra
 		for (Junction target : adjacentNodes)
 		{
 			if (this.getShortestDistance(target) >
-			this.getShortestDistance(node) + 
-			this.getDistance(node, target)) 
+					this.getShortestDistance(node) + 
+						this.getDistance(node, target)) 
 			{
 				this.distances.put(target.getJunctionID(),
 						this.getShortestDistance(node) 
@@ -102,7 +104,7 @@ public class Dijkstra
 		{
 			String sectionId = section[0];
 			
-			for (Junction junction: this.map.getVertices())
+			for (Junction junction: this.vertices)
 			{
 				if (junction.containSection(sectionId) && 
 						!(this.isSettled(junction)))
@@ -121,7 +123,7 @@ public class Dijkstra
 	private float getDistance(Junction node, Junction target) 
 	{
 		String commonId = Junction.getCommonSectionId(node, target);
-		return this.map.getLengths().get(commonId);
+		return this.locDistances.get(commonId);
 	}
 
 	public ArrayList<Junction> getPath(Junction target) 
