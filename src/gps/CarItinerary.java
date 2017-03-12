@@ -33,6 +33,7 @@ public class CarItinerary extends CyclicBehaviour
 			try 
 			{
 				this.computeAndSendPath(gpsRequest);
+				System.out.println("GPS sent reply with path");
 			} 
 			catch (UnreadableException | IOException e) {e.printStackTrace();}
 		}

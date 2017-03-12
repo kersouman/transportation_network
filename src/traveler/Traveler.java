@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
@@ -22,8 +23,8 @@ public class Traveler extends Agent
 	
 	private List<String> path = new ArrayList<String>();
 	private HashMap<Integer, Junction[]> agenda = null;
-	private DFAgentDescription clock = null;
-	private DFAgentDescription gps = null;
+	private AID clock = null;
+	private AID gps = null;
 	private Junction currentJunction = null;
 	private int totalTimeTravel = 0;
 	private int margin = 0;
@@ -71,11 +72,12 @@ public class Traveler extends Agent
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("clock");
 		DFAgentDescription dfad = new DFAgentDescription();
+		dfad.addServices(sd);
 		
 		try 
 		{
 			DFAgentDescription[] clock = DFService.search(this, dfad);
-			this.clock = clock[0];
+			this.clock = clock[0].getName();
 		} 
 		catch (FIPAException e) 
 		{
@@ -88,11 +90,13 @@ public class Traveler extends Agent
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("gps");
 		DFAgentDescription dfad = new DFAgentDescription();
+		dfad.addServices(sd);
 		
 		try
 		{
 			DFAgentDescription[] gps = DFService.search(this, dfad);
-			this.gps = gps[0];
+			this.gps = gps[0].getName();
+			System.out.println(this.getName() + " " + this.gps);
 		}
 		catch (FIPAException e)
 		{
@@ -125,7 +129,7 @@ public class Traveler extends Agent
 		return this.agenda;
 	}
 
-	public DFAgentDescription getClock() 
+	public AID getClock() 
 	{
 		return this.clock;
 	}
@@ -135,7 +139,7 @@ public class Traveler extends Agent
 		return this.id;
 	}
 	
-	public DFAgentDescription getGPS()
+	public AID getGPS()
 	{
 		return this.gps;
 	}

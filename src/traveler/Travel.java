@@ -156,12 +156,12 @@ public class Travel extends Behaviour
 		};
 		
 		ACLMessage gpsRequest = new ACLMessage(ACLMessage.REQUEST);
-		gpsRequest.addReceiver(((Traveler)myAgent).getGPS().getName());
+		gpsRequest.addReceiver(((Traveler)myAgent).getGPS());
 		
 		gpsRequest.setContentObject(r_content);
 		
 		myAgent.send(gpsRequest);
-		System.out.println(((Traveler)myAgent).getName() + " GPS request sent");
+		System.out.println(((Traveler)myAgent).getName() + " GPS request sent to " + ((Traveler)myAgent).getGPS().getName());
 	}
 	
 	private void clockRegistration() 
@@ -172,7 +172,7 @@ public class Travel extends Behaviour
 		tickStart -= ((Traveler)myAgent).getMargin();
 		
 		ACLMessage clockRegister = new ACLMessage(ACLMessage.REQUEST);
-		clockRegister.addReceiver(((Traveler)myAgent).getClock().getName());
+		clockRegister.addReceiver(((Traveler)myAgent).getClock());
 				
 		Object[] cr_content = {
 				"Clock register",
@@ -200,7 +200,7 @@ public class Travel extends Behaviour
 		};
 		
 		ACLMessage travelTime = new ACLMessage(ACLMessage.REQUEST);
-		travelTime.addReceiver(((Traveler)myAgent).getGPS().getName());
+		travelTime.addReceiver(((Traveler)myAgent).getGPS());
 		
 		travelTime.setContentObject(tt_content);
 
