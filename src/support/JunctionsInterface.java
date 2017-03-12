@@ -11,11 +11,13 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import map.Junction;
+import map.Road;
+import map.Section;
 
-public class JunctionsInterface 
-{
+public class JunctionsInterface {
 
-	public static List<Junction> generateJunctions(String junctions)
+	public static List<Junction> 
+		generateJunctions(String junctions, List<Road> roads)
 			throws IOException, JDOMException 
 	{
 		SAXBuilder build = new SAXBuilder();
@@ -23,17 +25,18 @@ public class JunctionsInterface
 		Document doc = (Document)build.build(xml);
 		
 		Element root = doc.getRootElement();
-		return generateJunctions(root.getChildren("junction"));
+		return generateJunctions(root.getChildren("junction"), roads);
 	}
 	
-	private static List<Junction> generateJunctions(List<Element> l_junctions) 
+	private static List<Junction> 
+		generateJunctions(List<Element> l_junctions, List<Road> roads) 
 	{
 		List<Junction> al_junction = new ArrayList<Junction>();
-		
 		for (Element element: l_junctions) 
 		{
-			List<String[]> al_jointSections =
-					generateJointSections(element.getChildren("section"));
+			List<Object[]> al_jointSections =
+					generateJointSections(element.getChildren("section"), 
+							roads);
 			String junctionID = element.getAttributeValue("id");
 			
 			al_junction.add(new Junction(al_jointSections, junctionID));
@@ -41,16 +44,23 @@ public class JunctionsInterface
 		return al_junction;
 	}
 	
-	private static List<String[]> generateJointSections(List<Element> l_js) 
+	private static List<Object[]> 
+		generateJointSections(List<Element> l_js, List<Road> roads) 
 	{
-		List<String[]> al_jointSections = new ArrayList<String[]>();
-		
+		List<Object[]> al_jointSections = new ArrayList<Object[]>();
 		for (Element element: l_js) 
 		{
-			String[] jointSection = {element.getAttributeValue("id"),
-					element.getText()};
-			
-			al_jointSections.add(jointSection);
+			for (Road road: roads) 
+			{
+				for (Section section: road.getSections())
+				{
+					if (section.getByID(element.getAttributeValue("id")))
+					{
+						Object[] jointSection = {section, element.getText()};
+						al_jointSections.add(jointSection);
+					}
+				}
+			}
 		}
 		return al_jointSections;
 	}

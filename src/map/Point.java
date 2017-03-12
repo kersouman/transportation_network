@@ -3,7 +3,7 @@ package map;
 public class Point 
 {
 
-	private final int EARTH_RADIUS = 637100;
+	private final int EARTH_RADIUS = 6371000;
 	
 	private int coordX = 0;
 	private int coordY = 0;

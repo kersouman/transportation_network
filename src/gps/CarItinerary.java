@@ -1,7 +1,7 @@
 package gps;
 
 import java.io.IOException;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import jade.core.AID;
@@ -9,6 +9,7 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
+import jade.util.leap.Serializable;
 import map.Junction;
 import support.Dijkstra;
 
@@ -25,18 +26,17 @@ public class CarItinerary extends CyclicBehaviour
 		
 		if (req == null)
 		{
+			System.out.println("GPS will block");
 			block();
 		}
 		else
 		{
+			System.out.println("GPS tries to resolve the itinerary");
 			try 
 			{
 				this.computeAndSendPath(req);
 			} 
-			catch (UnreadableException | IOException e) 
-			{
-				e.printStackTrace();
-			}
+			catch (UnreadableException | IOException e) {e.printStackTrace();}
 		}
 	}
 	
@@ -44,6 +44,23 @@ public class CarItinerary extends CyclicBehaviour
 		throws UnreadableException, IOException
 	{
 		this.sendPathToTraveler(this.computePath(req), req.getSender());
+	}
+	
+	private void sendPathToTraveler(List<Junction> path, AID traveler) 
+			throws IOException
+	{
+		ACLMessage pathReply = new ACLMessage(ACLMessage.AGREE);
+		
+		pathReply.addReceiver(traveler);
+		
+		List<Object> content = new ArrayList<Object>();
+		content.add(path);
+		content.add(this.pathTime(path));
+		
+		pathReply.setContentObject((Serializable)content);
+		pathReply.setContent("Path reply");
+		
+		myAgent.send(pathReply);
 	}
 	
 	private List<Junction> computePath(ACLMessage req) 
@@ -58,16 +75,18 @@ public class CarItinerary extends CyclicBehaviour
 		
 		return dijkstra.getPath(limits[1]);
 	}
-
-	private void sendPathToTraveler(List<Junction> path, AID traveler) 
-			throws IOException
+	
+	private int pathTime(List<Junction> path)
 	{
-		ACLMessage pathReply = new ACLMessage(ACLMessage.AGREE);
-		pathReply.setContentObject((Serializable)path);
-		pathReply.setContent("Path reply");
-		pathReply.addReceiver(traveler);
+		int time = 0;
+
+		for (int i = 0; i < path.size() - 1; i++)
+		{
+			time += (int)((CarGPS)myAgent).getDistance(
+					Junction.getCommonSectionId(path.get(i), path.get(i+1)));
+		}
 		
-		myAgent.send(pathReply);
+		return time;
 	}
 		
 }

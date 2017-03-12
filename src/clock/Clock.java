@@ -1,8 +1,10 @@
 package clock;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
@@ -12,33 +14,35 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 @SuppressWarnings("serial")
 public class Clock extends Agent 
 {
-	
-	private List<DFAgentDescription> travelers = 
-			new ArrayList<DFAgentDescription>();
+
+	private Map<Integer, List<AID>> startRegister =
+			new HashMap<Integer, List<AID>>();
 	private int tick = 0;
 	private int	day  = 0;
 	private int hour = 0;
 	private int min  = 0;
-	
-	public Clock() {}
-	
+
 	public void setup() 
 	{
+		this.tick = (int)getArguments()[0];
+		this.hour = this.tick/60;
+		this.min  = this.tick%60;
+
 		this.setDescriptionService();
-		this.setMovingAgents("traveler");
 		this.addBehaviour(new Tick(this, 1000));
+		this.addBehaviour(new StartRegister());
 	}
-	
+
 	private void setDescriptionService() 
 	{
 		ServiceDescription sd = new ServiceDescription();
 		sd.setName("Scheduler");
 		sd.setType("clock");
-		
+
 		DFAgentDescription dfad = new DFAgentDescription();
 		dfad.setName(this.getAID());
 		dfad.addServices(sd);
-		
+
 		try 
 		{
 			DFService.register(this, dfad);
@@ -47,38 +51,6 @@ public class Clock extends Agent
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	private void setMovingAgents(String type) 
-	{
-		ServiceDescription sd = new ServiceDescription();
-		sd.setType(type);
-		DFAgentDescription dfad = new DFAgentDescription();
-		dfad.addServices(sd);
-		
-		try 
-		{
-			DFAgentDescription[] travelers = DFService.search(this, dfad);
-			
-			for (DFAgentDescription d: travelers) 
-			{
-				this.travelers.add(d);
-			}
-		} 
-		catch (FIPAException e) 
-		{
-			e.printStackTrace();
-		}
-	}
-
-	public List<DFAgentDescription> getTravelers() 
-	{
-		return travelers;
-	}
-
-	public void setTravelers(List<DFAgentDescription> travelers) 
-	{
-		this.travelers = travelers;
 	}
 
 	public int getTick()
@@ -121,4 +93,9 @@ public class Clock extends Agent
 		this.min = min;
 	}
 	
+	public Map<Integer, List<AID>> getStartRegister()
+	{
+		return this.startRegister;
+	}
+
 }

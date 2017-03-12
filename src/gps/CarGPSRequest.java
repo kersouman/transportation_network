@@ -9,16 +9,14 @@ public class CarGPSRequest implements MatchExpression
 
 	@Override
 	public boolean match(ACLMessage req) 
-	{
-		boolean match = false;
-		
+	{		
 		if (req.getPerformative() == ACLMessage.REQUEST && 
 				req.getContent().equals("Path request"))
 		{
-			match = true;
+			return true;
 		}
 		
-		return match;
+		return false;
 	}
 
 }

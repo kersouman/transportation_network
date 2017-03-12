@@ -22,18 +22,21 @@ public class Traveler extends Agent
 	private List<Junction> path = new ArrayList<Junction>();
 	private Map<Integer, Junction[]> agenda = null;
 	private DFAgentDescription clock = null;
+	private Junction currentJunction = null;
+	private int totalTimeTravel = 0;
+	private int margin = 0;
 	private int state = -1;
 	private int id = -1;
 
-	public Traveler(HashMap<Integer, Junction[]> agenda) 
-	{
-		this.id 		= Traveler.CPT_TRAVELER++;
-		this.state 		= 0;
-		this.agenda		= new HashMap<Integer, Junction[]>(agenda);
-	}
-	
+	@SuppressWarnings("unchecked")
 	public void setup() 
 	{
+		this.id = Traveler.CPT_TRAVELER++;
+		this.state = 0;
+		
+		this.agenda = (HashMap<Integer, Junction[]>)getArguments()[0];
+		this.margin = (int)getArguments()[1];
+		
 		System.out.println("I am the traveler " + this.id);
 		this.setDescriptionService();
 		this.setClock();
@@ -107,7 +110,7 @@ public class Traveler extends Agent
 
 	public void setPath(List<Junction> path)
 	{
-		this.path = path;
+		this.path = new ArrayList<Junction>(path);
 	}
 
 	public int getState() 
@@ -138,6 +141,31 @@ public class Traveler extends Agent
 	public List<DFAgentDescription> getGPS()
 	{
 		return this.gps;
+	}
+	
+	public Junction getCurrentJunction()
+	{
+		return this.currentJunction;
+	}
+	
+	public void setCurrentJunction(Junction currentJunction)
+	{
+		this.currentJunction = currentJunction;
+	}
+	
+	public int getTotalTimeTravel()
+	{
+		return this.totalTimeTravel;
+	}
+	
+	public void setTotalTimeTravel(int totalTimeTravel)
+	{
+		this.totalTimeTravel = totalTimeTravel;
+	}
+	
+	public int getMargin()
+	{
+		return this.margin;
 	}
 	
 }

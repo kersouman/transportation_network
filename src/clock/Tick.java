@@ -1,7 +1,12 @@
 package clock;
 
+import java.util.List;
+import java.util.Map;
+
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
+import jade.lang.acl.ACLMessage;
 
 @SuppressWarnings("serial")
 public class Tick extends TickerBehaviour 
@@ -16,6 +21,7 @@ public class Tick extends TickerBehaviour
 	protected void onTick() 
 	{
 		this.updateDate();
+		this.setAgentOnMotion();
 		System.out.println(((Clock)myAgent).getDay() + ":" +
 				((Clock)myAgent).getHour() + ":" +
 				((Clock)myAgent).getMin());
@@ -46,6 +52,26 @@ public class Tick extends TickerBehaviour
 			{
 				((Clock)myAgent).setMin(((Clock)myAgent).getMin() + 1);
 			}
+		}
+	}
+	
+	private void setAgentOnMotion()
+	{
+		Map<Integer, List<AID>> startRegister = 
+				((Clock)myAgent).getStartRegister();
+		List<AID> agentsToMove = startRegister.get(((Clock)myAgent).getTick());
+		
+		if (agentsToMove != null)
+		{
+			ACLMessage moveReply = new ACLMessage(ACLMessage.INFORM);
+			moveReply.setContent("Start");
+			
+			for (AID aid: agentsToMove)
+			{
+				moveReply.addReceiver(aid);
+			}
+			
+			myAgent.send(moveReply);
 		}
 	}
 	

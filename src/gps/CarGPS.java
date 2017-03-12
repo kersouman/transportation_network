@@ -17,24 +17,32 @@ import map.Road;
 public class CarGPS extends Agent
 {
 
+	private final float CAR_SPEED = 13.9f;
+	
 	private List<DFAgentDescription> travelers = 
 			new ArrayList<DFAgentDescription>();
 	private Map<String, Float> distances = null;
 	private List<Junction> junctions = null;
 	private List<Road> roads = null;
 	
-	public CarGPS(map.Map map)
+	public void setup()
 	{
+		map.Map map = (map.Map)getArguments()[0];
 		this.roads = new ArrayList<Road>(map.getEdges());
 		this.junctions = new ArrayList<Junction>(map.getVertices());
 		this.distances = new HashMap<String, Float>(map.getLengths());
-	}
-	
-	public void setup()
-	{
+		
+		for (String key: this.distances.keySet())
+		{
+			this.distances.put(key, this.distances.get(key)/this.CAR_SPEED);
+		}
+		
+		System.out.println("I am the GPS");
+		
 		this.setDescriptionService();
 		this.setMovingAgents("traveler");
 		this.addBehaviour(new CarItinerary());
+		this.addBehaviour(new CarTransitTime());
 	}
 	
 	private void setDescriptionService() 
@@ -46,6 +54,7 @@ public class CarGPS extends Agent
 		DFAgentDescription dfad = new DFAgentDescription();
 		dfad.setName(this.getAID());
 		dfad.addServices(sd);
+		
 		try 
 		{
 			DFService.register(this, dfad);
@@ -81,6 +90,11 @@ public class CarGPS extends Agent
 	public Map<String, Float> getDistances()
 	{
 		return this.distances;
+	}
+	
+	public float getDistance(String key)
+	{
+		return this.distances.get(key);
 	}
 	
 	public List<Road> getRoads()
