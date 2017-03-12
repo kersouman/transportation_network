@@ -18,10 +18,10 @@ public class Traveler extends Agent
 	
 	private static int CPT_TRAVELER = 0;
 
-	private List<DFAgentDescription> gps = new ArrayList<DFAgentDescription>();
 	private List<Junction> path = new ArrayList<Junction>();
 	private Map<Integer, Junction[]> agenda = null;
 	private DFAgentDescription clock = null;
+	private DFAgentDescription gps = null;
 	private Junction currentJunction = null;
 	private int totalTimeTravel = 0;
 	private int margin = 0;
@@ -68,7 +68,6 @@ public class Traveler extends Agent
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("clock");
 		DFAgentDescription dfad = new DFAgentDescription();
-		dfad.addServices(sd);
 		
 		try 
 		{
@@ -86,16 +85,11 @@ public class Traveler extends Agent
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("gps");
 		DFAgentDescription dfad = new DFAgentDescription();
-		dfad.addServices(sd);
 		
 		try
 		{
 			DFAgentDescription[] gps = DFService.search(this, dfad);
-		
-			for (DFAgentDescription g: gps)
-			{
-				this.gps.add(g);
-			}
+			this.gps = gps[0];
 		}
 		catch (FIPAException e)
 		{
@@ -138,7 +132,7 @@ public class Traveler extends Agent
 		return this.id;
 	}
 	
-	public List<DFAgentDescription> getGPS()
+	public DFAgentDescription getGPS()
 	{
 		return this.gps;
 	}

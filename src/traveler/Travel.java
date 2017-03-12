@@ -149,7 +149,8 @@ public class Travel extends Behaviour
 	{
 		ACLMessage gpsRequest = new ACLMessage(ACLMessage.REQUEST);
 		
-		gpsRequest.addReceiver(((Traveler)myAgent).getGPS().get(0).getName());
+		gpsRequest.addReceiver(((Traveler)myAgent).getGPS().getName());
+		System.out.println(((Traveler)myAgent).getGPS().getName());
 		
 		gpsRequest.setContent("Path request");
 		gpsRequest.setContentObject(
@@ -185,7 +186,7 @@ public class Travel extends Behaviour
 		ACLMessage travelTime = new ACLMessage(ACLMessage.REQUEST);
 		travelTime.setContent("Travel time request");
 		travelTime.setContentObject(junctions);
-		travelTime.addReceiver(((Traveler)myAgent).getGPS().get(0).getName());
+		travelTime.addReceiver(((Traveler)myAgent).getGPS().getName());
 		
 		myAgent.send(travelTime);
 	}

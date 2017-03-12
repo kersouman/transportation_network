@@ -58,7 +58,6 @@ public class CarItinerary extends CyclicBehaviour
 		content.add(this.pathTime(path));
 		
 		pathReply.setContentObject((Serializable)content);
-		pathReply.setContent("Path reply");
 		
 		myAgent.send(pathReply);
 	}
@@ -79,7 +78,7 @@ public class CarItinerary extends CyclicBehaviour
 	private int pathTime(List<Junction> path)
 	{
 		int time = 0;
-
+		
 		for (int i = 0; i < path.size() - 1; i++)
 		{
 			time += (int)((CarGPS)myAgent).getDistance(

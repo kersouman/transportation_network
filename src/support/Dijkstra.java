@@ -28,14 +28,14 @@ public class Dijkstra
 		this.locDistances 	= new HashMap<String, Float>(locDistances);
 	}
 	
-	public void execute (Junction destination, Junction origin)
+	public void execute(Junction destination, Junction origin)
 	{
 		this.unsettledNodes.add(origin);
 		this.distances.put(origin.getJunctionID(), (float) 0);
 
 		while (unsettledNodes.size() > 0) 
 		{
-			Junction node = getMinimum(this.unsettledNodes);
+			Junction node = this.getMinimum(this.unsettledNodes);
 
 			this.settledNodes.add(node);
 			this.unsettledNodes.remove(node);
