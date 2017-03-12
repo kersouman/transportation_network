@@ -10,8 +10,7 @@ public class PathReply implements MatchExpression
 	@Override
 	public boolean match(ACLMessage rep) 
 	{
-		if (rep.getPerformative() == ACLMessage.AGREE && 
-				rep.getContent().equals("Path reply"))
+		if (rep.getPerformative() == ACLMessage.AGREE)
 		{
 			return true;
 		}

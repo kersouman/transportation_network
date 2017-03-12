@@ -9,8 +9,7 @@ public class TravelTimeRequest implements MatchExpression {
 	@Override
 	public boolean match(ACLMessage ttReq) 
 	{
-		if (ttReq.getPerformative() == ACLMessage.REQUEST && 
-				ttReq.getContent().equals("Travel time request"))
+		if (ttReq.getPerformative() == ACLMessage.REQUEST)
 		{
 			return true;
 		}

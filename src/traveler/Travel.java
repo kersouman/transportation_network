@@ -110,7 +110,6 @@ public class Travel extends Behaviour
 			}
 			break;
 		case 5:
-			
 			int currentJunction = ((Traveler)myAgent).getPath().indexOf(
 					(((Traveler)myAgent).getCurrentJunction())) + 1;
 			((Traveler)myAgent).setCurrentJunction(
@@ -184,7 +183,6 @@ public class Travel extends Behaviour
 		};
 		
 		ACLMessage travelTime = new ACLMessage(ACLMessage.REQUEST);
-		travelTime.setContent("Travel time request");
 		travelTime.setContentObject(junctions);
 		travelTime.addReceiver(((Traveler)myAgent).getGPS().getName());
 		

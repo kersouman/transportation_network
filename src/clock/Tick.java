@@ -63,7 +63,7 @@ public class Tick extends TickerBehaviour
 		
 		if (agentsToMove != null)
 		{
-			ACLMessage moveReply = new ACLMessage(ACLMessage.INFORM);
+			ACLMessage moveReply = new ACLMessage(ACLMessage.AGREE);
 			moveReply.setContent("Start");
 			
 			for (AID aid: agentsToMove)

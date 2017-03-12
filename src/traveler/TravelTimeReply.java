@@ -10,8 +10,7 @@ public class TravelTimeReply implements MatchExpression
 	@Override
 	public boolean match(ACLMessage ttRep) 
 	{
-		if (ttRep.getPerformative() == ACLMessage.INFORM && 
-				ttRep.getContent().equals("Travel time reply"))
+		if (ttRep.getPerformative() == ACLMessage.INFORM)
 		{
 			return true;
 		}
