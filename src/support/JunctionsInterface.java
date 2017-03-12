@@ -3,7 +3,9 @@ package support;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -16,8 +18,8 @@ import map.Section;
 
 public class JunctionsInterface {
 
-	public static List<Junction> 
-		generateJunctions(String junctions, List<Road> roads)
+	public static HashMap<String, Junction> 
+		generateJunctions(String junctions, Map<String, Road> roads)
 			throws IOException, JDOMException 
 	{
 		SAXBuilder build = new SAXBuilder();
@@ -28,10 +30,12 @@ public class JunctionsInterface {
 		return generateJunctions(root.getChildren("junction"), roads);
 	}
 	
-	private static List<Junction> 
-		generateJunctions(List<Element> l_junctions, List<Road> roads) 
+	private static HashMap<String, Junction> 
+		generateJunctions(List<Element> l_junctions, 
+				Map<String, Road> roads) 
 	{
-		List<Junction> al_junction = new ArrayList<Junction>();
+		HashMap<String, Junction> al_junction = new HashMap<String, Junction>();
+		
 		for (Element element: l_junctions) 
 		{
 			List<Object[]> al_jointSections =
@@ -39,24 +43,31 @@ public class JunctionsInterface {
 							roads);
 			String junctionID = element.getAttributeValue("id");
 			
-			al_junction.add(new Junction(al_jointSections, junctionID));
+			al_junction.put(junctionID, 
+					new Junction(al_jointSections, junctionID));
 		}
 		return al_junction;
 	}
 	
 	private static List<Object[]> 
-		generateJointSections(List<Element> l_js, List<Road> roads) 
+		generateJointSections(List<Element> l_js, Map<String, Road> roads) 
 	{
 		List<Object[]> al_jointSections = new ArrayList<Object[]>();
 		for (Element element: l_js) 
 		{
-			for (Road road: roads) 
+			for (String k_road: roads.keySet()) 
 			{
-				for (Section section: road.getSections())
+				Map<String, Section> sections = 
+						roads.get(k_road).getSections();
+				for (String k_section: sections.keySet())
 				{
-					if (section.getByID(element.getAttributeValue("id")))
+					if (sections.get(k_section).getByID(
+							element.getAttributeValue("id")))
 					{
-						Object[] jointSection = {section, element.getText()};
+						Object[] jointSection = {
+								sections.get(k_section),
+								element.getText()
+						};
 						al_jointSections.add(jointSection);
 					}
 				}

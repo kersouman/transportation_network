@@ -2,6 +2,7 @@ package map;
 
 import jade.util.leap.Serializable;
 
+@SuppressWarnings("serial")
 public class Point implements Serializable
 {
 

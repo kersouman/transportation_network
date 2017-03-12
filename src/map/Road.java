@@ -1,21 +1,20 @@
 package map;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class Road 
 {
 
 	private String name = "";
-	private List<Section> sections = new ArrayList<Section>();
+	private HashMap<String, Section> sections = new HashMap<String, Section>();
 	
-	public Road(List<Section> s, String n) 
+	public Road(HashMap<String, Section> s, String n) 
 	{
 		this.name = n;
 		this.sections = s;
 	}
 	
-	public List<Section> getSections() 
+	public HashMap<String, Section> getSections() 
 	{
 		return this.sections;
 	}

@@ -3,7 +3,6 @@ package gps;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -11,6 +10,7 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import map.Junction;
+import map.Map;
 import map.Road;
 
 @SuppressWarnings("serial")
@@ -21,16 +21,16 @@ public class CarGPS extends Agent
 	
 	private List<DFAgentDescription> travelers = 
 			new ArrayList<DFAgentDescription>();
-	private Map<String, Float> distances = null;
-	private List<Junction> junctions = null;
-	private List<Road> roads = null;
+	private HashMap<String, Junction> junctions = null;
+	private HashMap<String, Float> distances = null;
+	private HashMap<String, Road> roads = null;
 	
 	public void setup()
 	{
-		map.Map map = (map.Map)getArguments()[0];
-		this.roads = new ArrayList<Road>(map.getEdges());
-		this.junctions = new ArrayList<Junction>(map.getVertices());
-		this.distances = new HashMap<String, Float>(map.getLengths());
+		Map map = (Map)getArguments()[0];
+		this.roads = map.getEdges();
+		this.junctions = map.getVertices();
+		this.distances = map.getLengths();
 		
 		for (String key: this.distances.keySet())
 		{
@@ -87,7 +87,7 @@ public class CarGPS extends Agent
 		}
 	}
 	
-	public Map<String, Float> getDistances()
+	public HashMap<String, Float> getDistances()
 	{
 		return this.distances;
 	}
@@ -97,19 +97,14 @@ public class CarGPS extends Agent
 		return this.distances.get(key);
 	}
 	
-	public List<Road> getRoads()
+	public HashMap<String, Road> getRoads()
 	{
 		return this.roads;
 	}
 	
-	public List<Junction> getJunctions()
+	public HashMap<String, Junction> getJunctions()
 	{
 		return this.junctions;
-	}
-	
-	public void setDistances(Map<String, Float> distances)
-	{
-		this.distances = new HashMap<String, Float>(distances);
 	}
 	
 	public void setDistance(String key, Float value)

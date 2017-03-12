@@ -1,9 +1,7 @@
 package map;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.jdom2.JDOMException;
 
@@ -12,10 +10,10 @@ import support.RoadsInterface;
 
 public class Map {
 
-	private List<Road> edges = new ArrayList<Road>();
-	private List<Junction> vertices = new ArrayList<Junction>();
-	private HashMap<String, Float> lengths =
-			new HashMap<String, Float>();
+	private HashMap<String, Float> lengths = new HashMap<String, Float>();
+	private HashMap<String, Road> edges = new HashMap<String, Road>();
+	private HashMap<String, Junction> vertices = 
+			new HashMap<String, Junction>();
 	
 	public Map(String roads, String junctions)
 			throws IOException, JDOMException
@@ -28,18 +26,21 @@ public class Map {
 	
 	private HashMap<String, Float> generateDistances() 
 	{
-		HashMap<String, Float> lengths = 
-				new HashMap<String, Float>();
-		for (Road road: this.edges)
+		HashMap<String, Float> lengths = new HashMap<String, Float>();
+		
+		for (String k_road: this.edges.keySet())
 		{
-			for (Section section: road.getSections())
+			HashMap<String, Section> sections = 
+					this.edges.get(k_road).getSections();
+			for (String k_section: sections.keySet())
 			{
-				lengths.put(section.getSectionID(), section.getLength());
+				lengths.put(k_section, sections.get(k_section).getLength());
 			}
 		}
 		return lengths;
 	}
 	
+	/*
 	public List<String> getNextSections(String id)
 	{
 		Junction currentJunction = null;
@@ -55,20 +56,21 @@ public class Map {
 		}
 		return nextSections;
 	}
+	*/
 	
-	public List<Road> getEdges() 
+	public HashMap<String, Road> getEdges() 
 	{
-		return edges;
+		return this.edges;
 	}
 
-	public List<Junction> getVertices() 
+	public HashMap<String, Junction> getVertices() 
 	{
-		return vertices;
+		return this.vertices;
 	}
 
 	public HashMap<String, Float> getLengths()
 	{
-		return lengths;
+		return this.lengths;
 	}
 	
 }

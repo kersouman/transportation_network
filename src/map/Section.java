@@ -5,6 +5,7 @@ import java.util.List;
 
 import jade.util.leap.Serializable;
 
+@SuppressWarnings("serial")
 public class Section implements Serializable
 {
 

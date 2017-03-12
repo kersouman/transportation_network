@@ -3,6 +3,7 @@ package support;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.jdom2.Document;
@@ -17,7 +18,7 @@ import map.Section;
 public class RoadsInterface 
 {
 	
-	public static List<Road> generateRoads(String roads)
+	public static HashMap<String, Road> generateRoads(String roads)
 			throws IOException, JDOMException 
 	{
 		SAXBuilder build = new SAXBuilder();
@@ -28,24 +29,25 @@ public class RoadsInterface
 		return generateRoads(root.getChildren("road"));
 	}
 	
-	private static List<Road> generateRoads(List<Element> l_roads) 
+	private static HashMap<String, Road> generateRoads(List<Element> l_roads) 
 	{
-		List<Road> al_roads = new ArrayList<Road>();
+		HashMap<String, Road> al_roads = new HashMap<String, Road>();
 		
 		for (Element element: l_roads) 
 		{
-			List<Section> al_section =
+			HashMap<String, Section> al_section =
 					generateSections(element.getChildren("section"));
 			String name = element.getChildText("name");
 			
-			al_roads.add(new Road(al_section, name));
+			al_roads.put(name, new Road(al_section, name));
 		}
 		return al_roads;
 	}
 	
-	private static List<Section> generateSections(List<Element> l_sections) 
+	private static HashMap<String, Section> 
+			generateSections(List<Element> l_sections) 
 	{
-		List<Section> al_section = new ArrayList<Section>();
+		HashMap<String, Section> al_section = new HashMap<String, Section>();
 		
 		for (Element element: l_sections) 
 		{
@@ -53,7 +55,7 @@ public class RoadsInterface
 					generatePoints(element.getChildren("coordinate"));
 			String sectionID = element.getAttributeValue("id");
 
-			al_section.add(new Section(al_point, sectionID));
+			al_section.put(sectionID, new Section(al_point, sectionID));
 		}
 		return al_section;
 	}

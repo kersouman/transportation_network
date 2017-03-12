@@ -3,7 +3,6 @@ package traveler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -11,6 +10,7 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import map.Junction;
+import map.Map;
 
 @SuppressWarnings("serial")
 public class Traveler extends Agent 
@@ -18,8 +18,10 @@ public class Traveler extends Agent
 	
 	private static int CPT_TRAVELER = 0;
 
+	private Map map = null;
+	
 	private List<Junction> path = new ArrayList<Junction>();
-	private Map<Integer, Junction[]> agenda = null;
+	private HashMap<Integer, Junction[]> agenda = null;
 	private DFAgentDescription clock = null;
 	private DFAgentDescription gps = null;
 	private Junction currentJunction = null;
@@ -35,7 +37,8 @@ public class Traveler extends Agent
 		this.state = 0;
 		
 		this.agenda = (HashMap<Integer, Junction[]>)getArguments()[0];
-		this.margin = (int)getArguments()[1];
+		this.map = (Map)getArguments()[1];
+		this.margin = (int)getArguments()[2];
 		
 		System.out.println("I am the traveler " + this.id);
 		this.setDescriptionService();
@@ -117,7 +120,7 @@ public class Traveler extends Agent
 		this.state = state;
 	}
 
-	public Map<Integer, Junction[]> getAgenda() 
+	public HashMap<Integer, Junction[]> getAgenda() 
 	{
 		return this.agenda;
 	}
@@ -160,6 +163,11 @@ public class Traveler extends Agent
 	public int getMargin()
 	{
 		return this.margin;
+	}
+	
+	public Map getMap()
+	{
+		return this.map;
 	}
 	
 }

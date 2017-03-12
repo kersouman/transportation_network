@@ -37,6 +37,7 @@ public class Launcher
 		};
 		Object[] travelerInit = {
 				agendas.get("NS"),
+				map,
 				0
 		};
 		Object[] carGPSInit = {

@@ -3,8 +3,8 @@
 	<agenda id="NS">
 		<entry>
 			<tick>540</tick>
-			<origin>J1</origin>
-			<destination>J3</destination>
+			<origin>J4</origin>
+			<destination>J1</destination>
 		</entry>
 	</agenda>
 </agendas>

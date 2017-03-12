@@ -43,15 +43,15 @@ public class Junction implements Serializable
 		return false;
 	}
 	
-	public static String getCommonSectionId(Junction src,Junction dest)
+	public static String getCommonSectionId(Junction j1, Junction j2)
 	{
-		for (Object[] sectionSrc:src.getJointSections())
+		for (Object[] section1: j1.getJointSections())
 		{
-			for (Object[] sectionDest:dest.getJointSections())
+			for (Object[] section2: j2.getJointSections())
 			{
-				if (((Section)sectionSrc[0]).getSectionID().equals(
-						((Section)sectionDest[0]).getSectionID()))
-					return ((Section)sectionSrc[0]).getSectionID();
+				if (((Section)section1[0]).getSectionID().equals(
+						((Section)section2[0]).getSectionID()))
+					return ((Section)section1[0]).getSectionID();
 			}
 		}
 		
@@ -65,7 +65,7 @@ public class Junction implements Serializable
 		return false;
 	}
 	
-	public Point getMilieu()
+	public Point getMiddlePoint()
 	{
 		List<Point> points = new ArrayList<Point>();
 		for (Object[] sectionJoint:this.getJointSections())

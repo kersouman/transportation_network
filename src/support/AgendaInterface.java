@@ -16,7 +16,7 @@ public class AgendaInterface
 {
 
 	public static HashMap<String, HashMap<Integer, Junction[]>> 
-		generateAgendas(String agenda, List<Junction> junctions)
+		generateAgendas(String agenda, HashMap<String, Junction> junctions)
 			throws IOException, JDOMException 
 	{
 		SAXBuilder build = new SAXBuilder();
@@ -28,7 +28,8 @@ public class AgendaInterface
 	}
 
 	private static HashMap<String, HashMap<Integer, Junction[]>>
-		generateAgendas(List<Element> l_agenda, List<Junction> junctions) 
+		generateAgendas(List<Element> l_agenda, 
+				HashMap<String, Junction> junctions) 
 	{
 		HashMap<String, HashMap<Integer, Junction[]>> hm_agendas = 
 				new HashMap<String, HashMap<Integer, Junction[]>>();
@@ -45,7 +46,7 @@ public class AgendaInterface
 	}
 
 	private static HashMap<Integer, Junction[]>
-		generateAgenda(List<Element> l_e, List<Junction> junctions) 
+		generateAgenda(List<Element> l_e, HashMap<String, Junction> junctions) 
 	{
 		HashMap<Integer, Junction[]> hm_agenda = 
 				new HashMap<Integer, Junction[]>();
@@ -58,8 +59,9 @@ public class AgendaInterface
 			Junction j_origin = null;
 			Junction j_destination = null;
 			
-			for (Junction junction: junctions) 
+			for (String k_junction: junctions.keySet()) 
 			{
+				Junction junction = junctions.get(k_junction);
 				if (junction.getByID(origin))
 				{
 					j_origin = junction;

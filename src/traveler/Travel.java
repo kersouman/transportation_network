@@ -1,6 +1,8 @@
 package traveler;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,7 +10,6 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
-import jade.util.leap.Serializable;
 import map.Junction;
 
 @SuppressWarnings("serial")
@@ -141,20 +142,23 @@ public class Travel extends Behaviour
 			((Traveler)myAgent).setState(0);
 			break;
 		}
-}
+	}
 
 	private void gpsInitialPathRequest() 
 			throws IOException
 	{
+		Junction[] j_journey = ((Traveler)myAgent).getAgenda().get(
+				Collections.min(((Traveler)myAgent).getAgenda().keySet()));
+		String[] r_content = {
+				"Path request",
+				j_journey[0].getJunctionID(),
+				j_journey[1].getJunctionID()
+		};
+		
 		ACLMessage gpsRequest = new ACLMessage(ACLMessage.REQUEST);
-		
 		gpsRequest.addReceiver(((Traveler)myAgent).getGPS().getName());
-		System.out.println(((Traveler)myAgent).getGPS().getName());
 		
-		gpsRequest.setContent("Path request");
-		gpsRequest.setContentObject(
-				((Traveler)myAgent).getAgenda().get(Collections.min(
-						((Traveler)myAgent).getAgenda().keySet())));
+		gpsRequest.setContentObject(r_content);
 		
 		myAgent.send(gpsRequest);		
 	}
@@ -167,25 +171,36 @@ public class Travel extends Behaviour
 		tickStart -= ((Traveler)myAgent).getMargin();
 		
 		ACLMessage clockRegister = new ACLMessage(ACLMessage.REQUEST);
-		clockRegister.setContentObject(tickStart);
-		clockRegister.setContent("Clock register");
 		clockRegister.addReceiver(((Traveler)myAgent).getClock().getName());
-			
+				
+		Object[] cr_content = {
+				"Clock register",
+				tickStart
+		};
+
+		clockRegister.setContentObject(cr_content);
+		
 		myAgent.send(clockRegister);
 	}
 	
 	private void requestCurrentTravelTime(int origin, int destination) 
 			throws IOException
 	{
-		Junction[] junctions = {
+		Junction[] j_junctions = {
 				((Traveler)myAgent).getPath().get(origin),
 				((Traveler)myAgent).getPath().get(destination)
 		};
+		String[] tt_content = {
+				"Travel time request",
+				j_junctions[0].getJunctionID(),
+				j_junctions[1].getJunctionID()
+		};
 		
 		ACLMessage travelTime = new ACLMessage(ACLMessage.REQUEST);
-		travelTime.setContentObject(junctions);
 		travelTime.addReceiver(((Traveler)myAgent).getGPS().getName());
 		
+		travelTime.setContentObject(tt_content);
+
 		myAgent.send(travelTime);
 	}
 	

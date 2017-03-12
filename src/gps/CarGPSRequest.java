@@ -8,13 +8,11 @@ public class CarGPSRequest implements MatchExpression
 {
 
 	@Override
-	public boolean match(ACLMessage req) 
-	{		
-		if (req.getPerformative() == ACLMessage.REQUEST)
-		{
+	public boolean match(ACLMessage gpsRequest) 
+	{	
+		if (gpsRequest.getPerformative() == ACLMessage.REQUEST)
 			return true;
-		}
-		
+
 		return false;
 	}
 

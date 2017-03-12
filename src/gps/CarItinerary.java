@@ -1,6 +1,7 @@
 package gps;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
-import jade.util.leap.Serializable;
 import map.Junction;
 import support.Dijkstra;
 
@@ -70,7 +70,7 @@ public class CarItinerary extends CyclicBehaviour
 		Dijkstra dijkstra = 
 				new Dijkstra(((CarGPS)myAgent).getJunctions(),
 						((CarGPS)myAgent).getDistances());
-		dijkstra.execute(limits[0], limits[1]);
+		dijkstra.execute(limits[0]);
 		
 		return dijkstra.getPath(limits[1]);
 	}
