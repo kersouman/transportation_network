@@ -1,8 +1,6 @@
 package traveler;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,12 +43,11 @@ public class Travel extends Behaviour
 			{
 				try 
 				{
-					List<Object> repContent = 
-							(List<Object>)pathReply.getContentObject();
 					((Traveler)myAgent).setPath(
-							(List<Junction>)repContent.get(0));
+							(List<String>)(
+									(Object[])pathReply.getContentObject())[1]);
 					((Traveler)myAgent).setTotalTimeTravel(
-							(int)repContent.get(1));
+							(int)((Object[])pathReply.getContentObject())[2]);
 				} 
 				catch (UnreadableException e) {e.printStackTrace();}
 
@@ -79,7 +76,8 @@ public class Travel extends Behaviour
 			else
 			{
 				((Traveler)myAgent).setCurrentJunction(
-						((Traveler)myAgent).getPath().get(0));
+						((Traveler)myAgent).getMap().getVertices().get(
+								((Traveler)myAgent).getPath().get(0)));
 				try 
 				{
 					this.requestCurrentTravelTime(0, 1);
@@ -114,11 +112,13 @@ public class Travel extends Behaviour
 			int currentJunction = ((Traveler)myAgent).getPath().indexOf(
 					(((Traveler)myAgent).getCurrentJunction())) + 1;
 			((Traveler)myAgent).setCurrentJunction(
-					((Traveler)myAgent).getPath().get(currentJunction));
+					((Traveler)myAgent).getMap().getVertices().get(
+							((Traveler)myAgent).getPath().get(
+									currentJunction)));
 			
-			if (((Traveler)myAgent).getPath().get(
-					((Traveler)myAgent).getPath().size() - 1).getJunctionID()
-					.equals(((Traveler)myAgent)
+			if (((Traveler)myAgent).getMap().getVertices().get(
+					((Traveler)myAgent).getPath().size() - 1)
+						.equals(((Traveler)myAgent)
 							.getCurrentJunction().getJunctionID()))
 			{
 				((Traveler)myAgent).setState(6);
@@ -160,7 +160,8 @@ public class Travel extends Behaviour
 		
 		gpsRequest.setContentObject(r_content);
 		
-		myAgent.send(gpsRequest);		
+		myAgent.send(gpsRequest);
+		System.out.println(((Traveler)myAgent).getName() + " GPS request sent");
 	}
 	
 	private void clockRegistration() 
@@ -187,8 +188,10 @@ public class Travel extends Behaviour
 			throws IOException
 	{
 		Junction[] j_junctions = {
-				((Traveler)myAgent).getPath().get(origin),
-				((Traveler)myAgent).getPath().get(destination)
+				((Traveler)myAgent).getMap().getVertices().get(
+						((Traveler)myAgent).getPath().get(origin)),
+				((Traveler)myAgent).getMap().getVertices().get(
+						((Traveler)myAgent).getPath().get(destination))
 		};
 		String[] tt_content = {
 				"Travel time request",

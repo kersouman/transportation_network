@@ -1,9 +1,7 @@
 package gps;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
@@ -20,13 +18,13 @@ public class CarItinerary extends CyclicBehaviour
 	@Override
 	public void action() 
 	{
-		ACLMessage req = myAgent.receive(
+		ACLMessage gpsRequest = myAgent.receive(
 				new MessageTemplate(
 						new CarGPSRequest()));
 		
-		if (req == null)
+		if (gpsRequest == null)
 		{
-			System.out.println("GPS will block");
+			System.out.println("GPS blocks");
 			block();
 		}
 		else
@@ -34,7 +32,7 @@ public class CarItinerary extends CyclicBehaviour
 			System.out.println("GPS tries to resolve the itinerary");
 			try 
 			{
-				this.computeAndSendPath(req);
+				this.computeAndSendPath(gpsRequest);
 			} 
 			catch (UnreadableException | IOException e) {e.printStackTrace();}
 		}
@@ -46,26 +44,30 @@ public class CarItinerary extends CyclicBehaviour
 		this.sendPathToTraveler(this.computePath(req), req.getSender());
 	}
 	
-	private void sendPathToTraveler(List<Junction> path, AID traveler) 
+	private void sendPathToTraveler(ArrayList<String> path, AID traveler) 
 			throws IOException
 	{
-		ACLMessage pathReply = new ACLMessage(ACLMessage.AGREE);
+		Object[] content = {
+			"GPS reply",
+			path,
+			this.pathTime(path)
+		};
 		
+		ACLMessage pathReply = new ACLMessage(ACLMessage.AGREE);	
 		pathReply.addReceiver(traveler);
 		
-		List<Object> content = new ArrayList<Object>();
-		content.add(path);
-		content.add(this.pathTime(path));
-		
-		pathReply.setContentObject((Serializable)content);
+		pathReply.setContentObject(content);
 		
 		myAgent.send(pathReply);
 	}
 	
-	private List<Junction> computePath(ACLMessage req) 
+	private ArrayList<String> computePath(ACLMessage gpsRequest) 
 			throws UnreadableException
 	{
-		Junction[] limits = (Junction[])req.getContentObject();
+		String[] limits = {
+				((String[])gpsRequest.getContentObject())[1],
+				((String[])gpsRequest.getContentObject())[2]
+		};
 		
 		Dijkstra dijkstra = 
 				new Dijkstra(((CarGPS)myAgent).getJunctions(),
@@ -75,14 +77,16 @@ public class CarItinerary extends CyclicBehaviour
 		return dijkstra.getPath(limits[1]);
 	}
 	
-	private int pathTime(List<Junction> path)
+	private int pathTime(ArrayList<String> path)
 	{
 		int time = 0;
 		
 		for (int i = 0; i < path.size() - 1; i++)
 		{
+			Junction j1 = ((CarGPS)myAgent).getJunctions().get(path.get(i));
+			Junction j2 = ((CarGPS)myAgent).getJunctions().get(path.get(i+1));
 			time += (int)((CarGPS)myAgent).getDistance(
-					Junction.getCommonSectionId(path.get(i), path.get(i+1)));
+					Junction.getCommonSectionId(j1, j2));
 		}
 		
 		return time;

@@ -20,7 +20,7 @@ public class Traveler extends Agent
 
 	private Map map = null;
 	
-	private List<Junction> path = new ArrayList<Junction>();
+	private List<String> path = new ArrayList<String>();
 	private HashMap<Integer, Junction[]> agenda = null;
 	private DFAgentDescription clock = null;
 	private DFAgentDescription gps = null;
@@ -100,14 +100,14 @@ public class Traveler extends Agent
 		}
 	}
 
-	public List<Junction> getPath() 
+	public List<String> getPath() 
 	{
 		return this.path;
 	}
 
-	public void setPath(List<Junction> path)
+	public void setPath(List<String> path)
 	{
-		this.path = new ArrayList<Junction>(path);
+		this.path = path;
 	}
 
 	public int getState() 
