@@ -1,6 +1,8 @@
 package map;
 
-public class Point 
+import jade.util.leap.Serializable;
+
+public class Point implements Serializable
 {
 
 	private final int EARTH_RADIUS = 6371000;

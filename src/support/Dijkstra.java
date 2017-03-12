@@ -123,6 +123,9 @@ public class Dijkstra
 	private float getDistance(Junction node, Junction target) 
 	{
 		String commonId = Junction.getCommonSectionId(node, target);
+		System.out.println("Origin: " + node.getJunctionID());
+		System.out.println("Target: " + target.getJunctionID());
+		System.out.println(this.locDistances.get(commonId));
 		return this.locDistances.get(commonId);
 	}
 

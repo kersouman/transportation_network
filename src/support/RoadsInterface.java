@@ -50,7 +50,7 @@ public class RoadsInterface
 		for (Element element: l_sections) 
 		{
 			List<Point> al_point =
-					generatePoints(element.getChildren("coordinates"));
+					generatePoints(element.getChildren("coordinate"));
 			String sectionID = element.getAttributeValue("id");
 
 			al_section.add(new Section(al_point, sectionID));
@@ -61,7 +61,7 @@ public class RoadsInterface
 	private static List<Point> generatePoints(List<Element> l_coordinates) 
 	{
 		List<Point> al_points = new ArrayList<Point>();
-		
+
 		for (Element element: l_coordinates) 
 		{
 			float lat = Float.parseFloat(element.getChildText("lat"));
