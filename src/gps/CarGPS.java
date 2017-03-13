@@ -17,7 +17,7 @@ import map.Road;
 public class CarGPS extends Agent
 {
 
-	private final float CAR_SPEED = 13.9f;
+	private final float CAR_SPEED = 73.9f;
 	
 	private List<DFAgentDescription> travelers = 
 			new ArrayList<DFAgentDescription>();

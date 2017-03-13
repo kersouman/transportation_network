@@ -33,7 +33,7 @@ public class Launcher
 		
 		
 		Object[] clockInit = {
-				420
+				510
 		};
 		Object[] travelerInit = {
 				agendas.get("NS"),

@@ -38,31 +38,31 @@ public class Dijkstra
 		
 		while (unsettledNodes.size() > 0) 
 		{
-			Junction node = this.getMinimum(this.unsettledNodes);
-
-			this.settledNodes.put(node.getJunctionID(), node);
-
+			String node = this.getMinimum(this.unsettledNodes);
+			System.out.println(node);
+			this.settledNodes.put(node, this.vertices.get(node));	
 			this.unsettledNodes.remove(node);
 			this.findMinimalDistances(node);
 		}
 	}
 	
-	private Junction getMinimum(HashMap<String, Junction> junctions) 
+	private String getMinimum(HashMap<String, Junction> junctions) 
 	{
-		Junction minimum = null;
+		System.out.println("Entering getMinimum");
+		String minimum = null;
 
 		for (String k_junction: junctions.keySet())
 		{
 			if (minimum == null)
 			{
-				minimum = junctions.get(k_junction);
+				minimum = k_junction;
 			} 
 			else
 			{
-				if (this.getShortestDistance(junctions.get(k_junction)) < 
+				if (this.getShortestDistance(k_junction) < 
 						this.getShortestDistance(minimum))
 				{
-					minimum = junctions.get(k_junction);
+					minimum = k_junction;
 				}
 			}
 		}
@@ -70,8 +70,9 @@ public class Dijkstra
 		return minimum;
 	}
 	
-	private Float getShortestDistance(Junction destination) 
+	private Float getShortestDistance(String destination) 
 	{
+		System.out.println("Entering getShortestDistance");
 		Float d = this.distances.get(destination);
 
 		if (d == null) 
@@ -82,36 +83,39 @@ public class Dijkstra
 		return d;
 	}
 	
-	private void findMinimalDistances(Junction node)
+	private void findMinimalDistances(String node)
 	{
+		System.out.println("Entering findMinimalDistances");
 		HashMap<String, Junction> adjacentNodes = this.getNeighbors(node);
 
 		for (String k_target: adjacentNodes.keySet())
 		{
-			Junction target = adjacentNodes.get(k_target);
-			if (this.getShortestDistance(target) > 
+			System.out.println(k_target);
+			String target = k_target;
+			if (this.getShortestDistance(k_target) > 
 						this.getShortestDistance(node) + 
 								this.getDistance(node, target)) 
 			{
-				this.distances.put(target.getJunctionID(), 
+				this.distances.put(target, 
 								this.getShortestDistance(node)
 									+ this.getDistance(node, target));
-				this.predecessors.put(target.getJunctionID(), 
-						node.getJunctionID());
-				this.unsettledNodes.put(target.getJunctionID(), target);
+				this.predecessors.put(target, node);
+				this.unsettledNodes.put(target, this.vertices.get(target));
 			}
 		}
 	}
 	
-	private HashMap<String, Junction> getNeighbors(Junction node)
+	private HashMap<String, Junction> getNeighbors(String node)
 	{
+		System.out.println("Entering getNeighbors");
 		HashMap<String, Junction> neighbors = new HashMap<String, Junction>();
 
-		for (Object[] section : node.getJointSections())
+		for (Object[] section : this.vertices.get(node).getJointSections())
 		{
 			String sectionId = ((Section)section[0]).getSectionID();
-			
-			for (String k_junction: this.vertices.keySet()){
+			System.out.println(sectionId);
+			for (String k_junction: this.vertices.keySet())
+			{
 				if (this.vertices.get(k_junction).containSection(sectionId) && 
 						!(this.isSettled(k_junction)))
 					neighbors.put(this.vertices.get(k_junction).getJunctionID(),
@@ -126,13 +130,14 @@ public class Dijkstra
 		return this.settledNodes.containsKey(junction);
 	}
 	
-	private float getDistance(Junction node, Junction target) 
+	private float getDistance(String node, String target) 
 	{
 		float distance = 0f;
 		
-		if (!node.getJunctionID().equals(target.getJunctionID()))
+		if (!node.equals(target))
 		{
-			String commonId = Junction.getCommonSectionId(node, target);
+			String commonId = Junction.getCommonSectionId(
+					this.vertices.get(node), this.vertices.get(target));
 			distance = this.locDistances.get(commonId);
 		}
 		

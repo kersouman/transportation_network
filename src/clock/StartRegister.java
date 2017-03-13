@@ -10,10 +10,12 @@ import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
 @SuppressWarnings("serial")
-public class StartRegister extends CyclicBehaviour {
+public class StartRegister extends CyclicBehaviour 
+{
 
 	@Override
-	public void action() {
+	public void action() 
+	{
 		ACLMessage clockRegister = myAgent.receive(
 				new MessageTemplate(new ClockRegister()));
 		
@@ -23,24 +25,29 @@ public class StartRegister extends CyclicBehaviour {
 		}
 		else
 		{
-			int tickStart = 0;
 			try 
 			{
-				tickStart = (int)clockRegister.getContentObject();
+				this.registerTraveler(clockRegister);
 			}
 			catch (UnreadableException e) {e.printStackTrace();}
-			
-			if (((Clock)myAgent).getStartRegister().get(tickStart) == null)
-			{
-				List<AID> register = new ArrayList<AID>();
-				register.add(clockRegister.getSender());
-				((Clock)myAgent).getStartRegister().put(tickStart, register);
-			}
-			else
-			{
-				((Clock)myAgent).getStartRegister().get(tickStart).add(
-						clockRegister.getSender());
-			}
+		}
+	}
+	
+	private void registerTraveler(ACLMessage clockRegister) 
+			throws UnreadableException
+	{
+		int tickStart = (int)((Object[])clockRegister.getContentObject())[1];
+		
+		if (((Clock)myAgent).getStartRegister().get(tickStart) == null)
+		{
+			List<AID> register = new ArrayList<AID>();
+			register.add(clockRegister.getSender());
+			((Clock)myAgent).getStartRegister().put(tickStart, register);
+		}
+		else
+		{
+			((Clock)myAgent).getStartRegister().get(tickStart).add(
+					clockRegister.getSender());
 		}
 	}
 

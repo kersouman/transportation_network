@@ -6,7 +6,7 @@ import jade.util.leap.Serializable;
 public class Point implements Serializable
 {
 
-	private final int EARTH_RADIUS = 6371000;
+	private final int EARTH_RADIUS = 637100;
 	
 	private int coordX = 0;
 	private int coordY = 0;

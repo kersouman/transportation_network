@@ -43,11 +43,10 @@ public class Travel extends Behaviour
 			{
 				try 
 				{
-					((Traveler)myAgent).setPath(
-							(List<String>)(
-									(Object[])pathReply.getContentObject())[1]);
-					((Traveler)myAgent).setTotalTimeTravel(
-							(int)((Object[])pathReply.getContentObject())[2]);
+					((Traveler)myAgent).setPath((List<String>)(
+							(Object[])pathReply.getContentObject())[1]);
+					((Traveler)myAgent).setTotalTimeTravel((int)(
+							(Object[])pathReply.getContentObject())[2]);
 				} 
 				catch (UnreadableException e) {e.printStackTrace();}
 
@@ -76,8 +75,7 @@ public class Travel extends Behaviour
 			else
 			{
 				((Traveler)myAgent).setCurrentJunction(
-						((Traveler)myAgent).getMap().getVertices().get(
-								((Traveler)myAgent).getPath().get(0)));
+								((Traveler)myAgent).getPath().get(0));
 				try 
 				{
 					this.requestCurrentTravelTime(0, 1);
@@ -100,7 +98,7 @@ public class Travel extends Behaviour
 				int blockTime = 0;
 				try 
 				{
-					blockTime = (int)travelTimeReply.getContentObject();
+					blockTime = (int)((Object[])travelTimeReply.getContentObject())[1];
 				} 
 				catch (UnreadableException e) {e.printStackTrace();}
 
@@ -112,14 +110,11 @@ public class Travel extends Behaviour
 			int currentJunction = ((Traveler)myAgent).getPath().indexOf(
 					(((Traveler)myAgent).getCurrentJunction())) + 1;
 			((Traveler)myAgent).setCurrentJunction(
-					((Traveler)myAgent).getMap().getVertices().get(
-							((Traveler)myAgent).getPath().get(
-									currentJunction)));
+					((Traveler)myAgent).getPath().get(currentJunction));
 			
-			if (((Traveler)myAgent).getMap().getVertices().get(
-					((Traveler)myAgent).getPath().size() - 1)
-						.equals(((Traveler)myAgent)
-							.getCurrentJunction().getJunctionID()))
+			if (((Traveler)myAgent).getPath().get(
+					((Traveler)myAgent).getPath().size()-1)
+						.equals(((Traveler)myAgent).getCurrentJunction()))
 			{
 				((Traveler)myAgent).setState(6);
 			}
@@ -139,7 +134,6 @@ public class Travel extends Behaviour
 			System.out.println(((Traveler)myAgent).getName() + 
 					": I have reached my destination and I wait");
 		default:
-			((Traveler)myAgent).setState(0);
 			break;
 		}
 	}
@@ -169,8 +163,9 @@ public class Travel extends Behaviour
 	{
 		int tickStart = Collections.min(
 				((Traveler)myAgent).getAgenda().keySet());
-		tickStart -= ((Traveler)myAgent).getMargin();
-		
+		tickStart -= ((Traveler)myAgent).getMargin() + 1;
+		tickStart -= ((Traveler)myAgent).getTotalTimeTravel();
+		System.out.println(tickStart);
 		ACLMessage clockRegister = new ACLMessage(ACLMessage.REQUEST);
 		clockRegister.addReceiver(((Traveler)myAgent).getClock());
 				

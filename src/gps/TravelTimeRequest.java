@@ -2,6 +2,7 @@ package gps;
 
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate.MatchExpression;
+import jade.lang.acl.UnreadableException;
 
 @SuppressWarnings("serial")
 public class TravelTimeRequest implements MatchExpression {
@@ -9,10 +10,16 @@ public class TravelTimeRequest implements MatchExpression {
 	@Override
 	public boolean match(ACLMessage ttReq) 
 	{
-		if (ttReq.getPerformative() == ACLMessage.REQUEST)
+		try 
 		{
-			return true;
+			if (ttReq.getPerformative() == ACLMessage.REQUEST &&
+					((String[])ttReq.getContentObject())[0]
+							.equals("Travel time request"))
+			{
+				return true;
+			}
 		}
+		catch (UnreadableException e) {e.printStackTrace();}
 		return false;
 	}
 

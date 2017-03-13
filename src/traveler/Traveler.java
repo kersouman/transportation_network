@@ -25,7 +25,7 @@ public class Traveler extends Agent
 	private HashMap<Integer, Junction[]> agenda = null;
 	private AID clock = null;
 	private AID gps = null;
-	private Junction currentJunction = null;
+	private String currentJunction = "";
 	private int totalTimeTravel = 0;
 	private int margin = 0;
 	private int state = -1;
@@ -144,12 +144,12 @@ public class Traveler extends Agent
 		return this.gps;
 	}
 	
-	public Junction getCurrentJunction()
+	public String getCurrentJunction()
 	{
 		return this.currentJunction;
 	}
 	
-	public void setCurrentJunction(Junction currentJunction)
+	public void setCurrentJunction(String currentJunction)
 	{
 		this.currentJunction = currentJunction;
 	}
