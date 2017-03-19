@@ -1,4 +1,4 @@
-package traveler;
+package car;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import map.Junction;
 import map.Map;
 
 @SuppressWarnings("serial")
-public class Traveler extends Agent 
+public class Car extends Agent 
 {
 	
 	private static int CPT_TRAVELER = 0;
@@ -25,8 +25,12 @@ public class Traveler extends Agent
 	private HashMap<Integer, Junction[]> agenda = null;
 	private AID clock = null;
 	private AID gps = null;
+	private AID resultsManager = null;
 	private String currentJunction = "";
 	private int totalTimeTravel = 0;
+	private int tickStart = 0;
+	private int tickExpected = 0;
+	private int tickArrived = 0;
 	private int margin = 0;
 	private int state = -1;
 	private int id = -1;
@@ -34,24 +38,24 @@ public class Traveler extends Agent
 	@SuppressWarnings("unchecked")
 	public void setup() 
 	{
-		this.id = Traveler.CPT_TRAVELER++;
+		this.id = Car.CPT_TRAVELER++;
 		this.state = 0;
 		
 		this.agenda = (HashMap<Integer, Junction[]>)getArguments()[0];
 		this.map = (Map)getArguments()[1];
 		this.margin = (int)getArguments()[2];
 		
-		System.out.println("I am the traveler " + this.id);
 		this.setDescriptionService();
 		this.setClock();
 		this.setGPS();
+		this.setResultManager();
 		this.addBehaviour(new Travel());
 	}
 	
 	private void setDescriptionService() 
 	{
 		ServiceDescription sd = new ServiceDescription();
-		sd.setName("Traveler" + this.id);
+		sd.setName("Car" + this.id);
 		sd.setType("traveler");
 		
 		DFAgentDescription dfad = new DFAgentDescription();
@@ -88,7 +92,7 @@ public class Traveler extends Agent
 	private void setGPS()
 	{
 		ServiceDescription sd = new ServiceDescription();
-		sd.setType("gps");
+		sd.setType("cgps");
 		DFAgentDescription dfad = new DFAgentDescription();
 		dfad.addServices(sd);
 		
@@ -96,12 +100,23 @@ public class Traveler extends Agent
 		{
 			DFAgentDescription[] gps = DFService.search(this, dfad);
 			this.gps = gps[0].getName();
-			System.out.println(this.getName() + " " + this.gps);
 		}
-		catch (FIPAException e)
+		catch (FIPAException e) {e.printStackTrace();}
+	}
+	
+	private void setResultManager()
+	{
+		ServiceDescription sd = new ServiceDescription();
+		sd.setType("resultsManager");
+		DFAgentDescription dfad = new DFAgentDescription();
+		dfad.addServices(sd);
+		
+		try
 		{
-			e.printStackTrace();
+			DFAgentDescription[] rm = DFService.search(this, dfad);
+			this.resultsManager = rm[0].getName();
 		}
+		catch (FIPAException e) {e.printStackTrace();}
 	}
 
 	public List<String> getPath() 
@@ -174,4 +189,38 @@ public class Traveler extends Agent
 		return this.map;
 	}
 	
+	public int getTickStart()
+	{
+		return this.tickStart;
+	}
+	
+	public void setTickStart(int tickStart)
+	{
+		this.tickStart = tickStart;
+	}
+	
+	public int getTickArrived()
+	{
+		return this.tickArrived;
+	}
+	
+	public void setTickArrived(int tickArrived)
+	{
+		this.tickArrived = tickArrived;
+	}
+	
+	public int getTickExpected()
+	{
+		return this.tickExpected;
+	}
+	
+	public void setTickExpected(int tickExpected)
+	{
+		this.tickExpected = tickExpected;
+	}
+
+	public AID getResultsManager()
+	{
+		return this.resultsManager;
+	}
 }

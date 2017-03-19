@@ -40,24 +40,6 @@ public class Map {
 		return lengths;
 	}
 	
-	/*
-	public List<String> getNextSections(String id)
-	{
-		Junction currentJunction = null;
-		for (Junction junction: this.vertices) 
-		{
-			if (junction.getJunctionID().equals(id))
-				currentJunction = junction;
-		}
-		List<String> nextSections = new ArrayList<String>();
-		for (Object[] tabString: currentJunction.getJointSections()) 
-		{
-			nextSections.add(((Section)tabString[0]).getSectionID());
-		}
-		return nextSections;
-	}
-	*/
-	
 	public HashMap<String, Road> getEdges() 
 	{
 		return this.edges;

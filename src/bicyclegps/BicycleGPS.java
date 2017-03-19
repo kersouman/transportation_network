@@ -1,8 +1,6 @@
-package gps;
+package bicyclegps;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -14,13 +12,11 @@ import map.Map;
 import map.Road;
 
 @SuppressWarnings("serial")
-public class CarGPS extends Agent
+public class BicycleGPS extends Agent
 {
 
-	private final float CAR_SPEED = 73.9f;
+	private final float VEHICLE_SPEED = 30f;
 	
-	private List<DFAgentDescription> travelers = 
-			new ArrayList<DFAgentDescription>();
 	private HashMap<String, Junction> junctions = null;
 	private HashMap<String, Float> distances = null;
 	private HashMap<String, Road> roads = null;
@@ -34,22 +30,19 @@ public class CarGPS extends Agent
 		
 		for (String key: this.distances.keySet())
 		{
-			this.distances.put(key, this.distances.get(key)/this.CAR_SPEED);
+			this.distances.put(key, this.distances.get(key)/this.VEHICLE_SPEED);
 		}
 		
-		System.out.println("I am the GPS");
-		
 		this.setDescriptionService();
-		this.setMovingAgents("traveler");
-		this.addBehaviour(new CarItinerary());
-		this.addBehaviour(new CarTransitTime());
+		this.addBehaviour(new BicycleItinerary());
+		this.addBehaviour(new BicycleTransitTime());
 	}
 	
 	private void setDescriptionService() 
 	{
 		ServiceDescription sd = new ServiceDescription();
-		sd.setName("CarGPS");
-		sd.setType("gps");
+		sd.setName("BicycleGPS");
+		sd.setType("bgps");
 		
 		DFAgentDescription dfad = new DFAgentDescription();
 		dfad.setName(this.getAID());
@@ -64,29 +57,7 @@ public class CarGPS extends Agent
 			e.printStackTrace();
 		}
 	}
-	
-	private void setMovingAgents(String type) 
-	{
-		ServiceDescription sd = new ServiceDescription();
-		sd.setType(type);
-		DFAgentDescription dfad = new DFAgentDescription();
-		dfad.addServices(sd);
-		
-		try 
-		{
-			DFAgentDescription[] travelers = DFService.search(this, dfad);
-			
-			for (DFAgentDescription d: travelers) 
-			{
-				this.travelers.add(d);
-			}
-		} 
-		catch (FIPAException e) 
-		{
-			e.printStackTrace();
-		}
-	}
-	
+
 	public HashMap<String, Float> getDistances()
 	{
 		return this.distances;

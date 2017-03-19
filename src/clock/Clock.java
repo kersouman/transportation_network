@@ -31,6 +31,7 @@ public class Clock extends Agent
 		this.setDescriptionService();
 		this.addBehaviour(new Tick(this, 1000));
 		this.addBehaviour(new StartRegister());
+		this.addBehaviour(new TickArrival());
 	}
 
 	private void setDescriptionService() 

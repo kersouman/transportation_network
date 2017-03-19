@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import map.Junction;
-import map.Section;
 
 public class Dijkstra
 {
@@ -39,7 +38,7 @@ public class Dijkstra
 		while (unsettledNodes.size() > 0) 
 		{
 			String node = this.getMinimum(this.unsettledNodes);
-			System.out.println(node);
+			
 			this.settledNodes.put(node, this.vertices.get(node));	
 			this.unsettledNodes.remove(node);
 			this.findMinimalDistances(node);
@@ -48,7 +47,6 @@ public class Dijkstra
 	
 	private String getMinimum(HashMap<String, Junction> junctions) 
 	{
-		System.out.println("Entering getMinimum");
 		String minimum = null;
 
 		for (String k_junction: junctions.keySet())
@@ -72,7 +70,6 @@ public class Dijkstra
 	
 	private Float getShortestDistance(String destination) 
 	{
-		System.out.println("Entering getShortestDistance");
 		Float d = this.distances.get(destination);
 
 		if (d == null) 
@@ -85,12 +82,10 @@ public class Dijkstra
 	
 	private void findMinimalDistances(String node)
 	{
-		System.out.println("Entering findMinimalDistances");
 		HashMap<String, Junction> adjacentNodes = this.getNeighbors(node);
 
 		for (String k_target: adjacentNodes.keySet())
 		{
-			System.out.println(k_target);
 			String target = k_target;
 			if (this.getShortestDistance(k_target) > 
 						this.getShortestDistance(node) + 
@@ -107,16 +102,13 @@ public class Dijkstra
 	
 	private HashMap<String, Junction> getNeighbors(String node)
 	{
-		System.out.println("Entering getNeighbors");
 		HashMap<String, Junction> neighbors = new HashMap<String, Junction>();
-
-		for (Object[] section : this.vertices.get(node).getJointSections())
+		for (String section : 
+			this.vertices.get(node).getJointSections().keySet())
 		{
-			String sectionId = ((Section)section[0]).getSectionID();
-			System.out.println(sectionId);
 			for (String k_junction: this.vertices.keySet())
 			{
-				if (this.vertices.get(k_junction).containSection(sectionId) && 
+				if (this.vertices.get(k_junction).containSection(section) && 
 						!(this.isSettled(k_junction)))
 					neighbors.put(this.vertices.get(k_junction).getJunctionID(),
 							this.vertices.get(k_junction));
@@ -155,7 +147,7 @@ public class Dijkstra
 		}
 		
 		path.add(current);
-		
+
 		while (this.predecessors.get(current) != null) 
 		{
 			current = this.predecessors.get(current);

@@ -4,8 +4,9 @@ import java.util.Map;
 
 import org.jdom2.JDOMException;
 
+import car.Car;
+import cargps.CarGPS;
 import clock.Clock;
-import gps.CarGPS;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
@@ -13,8 +14,8 @@ import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 import map.Junction;
+import results.ResultsManager;
 import support.AgendaInterface;
-import traveler.Traveler;
 
 public class Launcher 
 {
@@ -35,8 +36,21 @@ public class Launcher
 		Object[] clockInit = {
 				510
 		};
-		Object[] travelerInit = {
+		Object[] rmInit = {
+				1500
+		};
+		Object[] travelerInit0 = {
 				agendas.get("NS"),
+				map,
+				0
+		};
+		Object[] travelerInit1 = {
+				agendas.get("SAS"),
+				map,
+				0
+		};
+		Object[] travelerInit2 = {
+				agendas.get("NSA"),
 				map,
 				0
 		};
@@ -48,17 +62,26 @@ public class Launcher
 				mc.createNewAgent("clock", Clock.class.getName(), clockInit);
 		AgentController carGPS = 
 				mc.createNewAgent("carGPS", CarGPS.class.getName(), carGPSInit);
-		AgentController car =
-				mc.createNewAgent("car", Traveler.class.getName(), travelerInit);
-		AgentController car1 =
-				mc.createNewAgent("car1", Traveler.class.getName(), travelerInit);
-		AgentController car2 =
-				mc.createNewAgent("car2", Traveler.class.getName(), travelerInit);
+		AgentController resultsManager =
+				mc.createNewAgent("rm", ResultsManager.class.getName(), rmInit);
+		AgentController[] car  = new AgentController[500];
+		AgentController[] car1 = new AgentController[500];
+		AgentController[] car2 = new AgentController[500];
+		for (int i = 0; i < 500; i++)
+		{
+			car[i]  = mc.createNewAgent("car " + i, Car.class.getName(), travelerInit0);
+			car1[i] = mc.createNewAgent("car1 " + i, Car.class.getName(), travelerInit1);
+			car2[i] = mc.createNewAgent("car2 " + i, Car.class.getName(), travelerInit2);
+		}
 		clock.start();
 		carGPS.start();
-		car.start();
-		car1.start();
-		car2.start();
+		resultsManager.start();
+		for (int i = 0; i < 500; i++)
+		{
+			car[i].start();
+			car1[i].start();
+			car2[i].start();
+		}
 	}
 	
 	public static void main(String[] args)

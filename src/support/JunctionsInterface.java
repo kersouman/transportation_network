@@ -2,7 +2,6 @@ package support;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class JunctionsInterface {
 		
 		for (Element element: l_junctions) 
 		{
-			List<Object[]> al_jointSections =
+			HashMap<String, String> al_jointSections =
 					generateJointSections(element.getChildren("section"), 
 							roads);
 			String junctionID = element.getAttributeValue("id");
@@ -49,10 +48,11 @@ public class JunctionsInterface {
 		return al_junction;
 	}
 	
-	private static List<Object[]> 
+	private static HashMap<String, String>
 		generateJointSections(List<Element> l_js, Map<String, Road> roads) 
 	{
-		List<Object[]> al_jointSections = new ArrayList<Object[]>();
+		HashMap<String, String> al_jointSections = 
+				new HashMap<String, String>();
 		for (Element element: l_js) 
 		{
 			for (String k_road: roads.keySet()) 
@@ -64,11 +64,7 @@ public class JunctionsInterface {
 					if (sections.get(k_section).getByID(
 							element.getAttributeValue("id")))
 					{
-						Object[] jointSection = {
-								sections.get(k_section),
-								element.getText()
-						};
-						al_jointSections.add(jointSection);
+						al_jointSections.put(k_section, element.getText());
 					}
 				}
 			}

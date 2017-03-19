@@ -3,8 +3,22 @@
 	<agenda id="NS">
 		<entry>
 			<tick>540</tick>
-			<origin>J4</origin>
-			<destination>J1</destination>
+			<origin>N118g</origin>
+			<destination>Supélec</destination>
+		</entry>
+	</agenda>
+	<agenda id="SAS">
+		<entry>
+			<tick>540</tick>
+			<origin>Saint-Aubin</origin>
+			<destination>Supélec</destination>
+		</entry>
+	</agenda>
+	<agenda id="NSA">
+		<entry>
+			<tick>540</tick>
+			<origin>N118g</origin>
+			<destination>Saint-Aubin</destination>
 		</entry>
 	</agenda>
 </agendas>

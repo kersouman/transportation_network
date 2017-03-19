@@ -1,31 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <junctions>
-	<junction id="J1">
-		<entry>true</entry>
-		<exit>true</exit>
-		<interest>false</interest>
+	<junction id="N118g">
 		<section id="RFP1">q</section>
 		<section id="RJC1">h</section>
+		<section id="PN118">h</section>
 	</junction>
-	<junction id="J2">
-		<entry>false</entry>
-		<exit>false</exit>
-		<interest id="Supélec">true</interest>
+	<junction id="N118d">
+		<section id="PN118">q</section>
+		<section id="D1281">h</section>
+	</junction>
+	<junction id="Supélec">
 		<section id="RJC1">q</section>
 		<section id="RJC2">h</section>
 	</junction>
-	<junction id="J3">
-		<entry>false</entry>
-		<exit>false</exit>
-		<interest>false</interest>
+	<junction id="J1">
 		<section id="RFP1">h</section>
 		<section id="RJC2">q</section>
 		<section id="RJC3">h</section>
 	</junction>
-	<junction id="J4">
-		<entry>true</entry>
-		<exit>true</exit>
-		<interest>false</interest>
+	<junction id="CEA Orme">
 		<section id="RJC3">q</section>
+		<section id="RJC4">h</section>
+	</junction>
+	<junction id="Saint-Aubin">
+		<section id="RJC4">q</section>
+		<section id="D3061">h</section>
+	</junction>
+	<junction id="CEA Saclay">
+		<section id="D3061">q</section>
+		<section id="D3062">h</section>
+	</junction>
+	<junction id="Christ">
+		<section id="D3062">q</section>
+		<section id="D361">h</section>
+	</junction>
+	<junction id="J2">
+		<section id="D1281">q</section>
+		<section id="D1282">h</section>
+		<section id="BGM2">q</section>
+	</junction>
+	<junction id="Nano-Innov">
+		<section id="D1282">q</section>
+		<section id="D1283">h</section>
+	</junction>
+	<junction id="Supoptique">
+		<section id="D1283">q</section>
+		<section id="D1284">h</section>
+		<section id="BGM1">h</section>
+	</junction>
+	<junction id="EDF">
+		<section id="BGM1">q</section>
+		<section id="BGM2">h</section>
+	</junction>
+	<junction id="J3">
+		<section id="D1284">q</section>
+		<section id="D361">q</section>
+		<section id="D362">h</section>
+	</junction>
+	<junction id="Massy">
+		<section id="D362">q</section>
+		<section id="D363">h</section>
+	</junction>
+	<junction id="X">
+		<section id="D363">q</section>
 	</junction>
 </junctions>

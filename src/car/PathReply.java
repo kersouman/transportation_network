@@ -1,25 +1,27 @@
-package gps;
+package car;
 
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate.MatchExpression;
 import jade.lang.acl.UnreadableException;
 
 @SuppressWarnings("serial")
-public class CarGPSRequest implements MatchExpression 
+public class PathReply implements MatchExpression 
 {
 
 	@Override
-	public boolean match(ACLMessage gpsRequest) 
-	{	
+	public boolean match(ACLMessage pathReply) 
+	{
 		try 
 		{
-			if (gpsRequest.getPerformative() == ACLMessage.REQUEST &&
-					((String[])gpsRequest.getContentObject())[0]
-							.equals("Path request"))
+			if (pathReply.getPerformative() == ACLMessage.AGREE &&
+					((Object[])pathReply.getContentObject())[0]
+							.equals("Path reply"))
+			{
 				return true;
-		}
+			}
+		} 
 		catch (UnreadableException e) {e.printStackTrace();}
-
+		
 		return false;
 	}
 

@@ -1,4 +1,4 @@
-package traveler;
+package bicycle;
 
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate.MatchExpression;

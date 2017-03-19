@@ -1,4 +1,4 @@
-package gps;
+package bicyclegps;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import jade.lang.acl.UnreadableException;
 import map.Junction;
 
 @SuppressWarnings("serial")
-public class CarTransitTime extends CyclicBehaviour
+public class BicycleTransitTime extends CyclicBehaviour
 {
 
 	@Override
@@ -36,11 +36,11 @@ public class CarTransitTime extends CyclicBehaviour
 	private void computeAndSendReply(ACLMessage travelTimeRequest) 
 			throws UnreadableException, IOException
 	{
-		int travelTime = this.getTravelTime(travelTimeRequest);
+		float travelTime = this.getTravelTime(travelTimeRequest);
 		this.sendReply(travelTime, travelTimeRequest.getSender());
 	}
 	
-	private int getTravelTime(ACLMessage travelTimeRequest) 
+	private float getTravelTime(ACLMessage travelTimeRequest) 
 			throws UnreadableException
 	{
 		String[] id_junctions = {
@@ -48,21 +48,34 @@ public class CarTransitTime extends CyclicBehaviour
 				(String)((Object[])travelTimeRequest.getContentObject())[2]
 		};
 		String id_section = Junction.getCommonSectionId(
-				((CarGPS)myAgent).getJunctions().get(id_junctions[0]),
-				((CarGPS)myAgent).getJunctions().get(id_junctions[1]));
-		float travelTime = ((CarGPS)myAgent).getDistance(id_section);
+				((BicycleGPS)myAgent).getJunctions().get(id_junctions[0]),
+				((BicycleGPS)myAgent).getJunctions().get(id_junctions[1]));
+		float travelTime = ((BicycleGPS)myAgent).getDistance(id_section);
 		
-		this.updateTravelTime(travelTime, id_section);
+		this.updateTravelTime(travelTime, id_section, 0f);
 		
-		return (int)travelTime;
+		if (((Object[])travelTimeRequest.getContentObject()).length == 4)
+		{
+			String id_lastSection = Junction.getCommonSectionId(
+					((BicycleGPS)myAgent).getJunctions().get(id_junctions[0]),
+					((BicycleGPS)myAgent).getJunctions().get(
+							(String)((Object[])travelTimeRequest
+									.getContentObject())[3]));
+			float lastTravelTime = 
+					((BicycleGPS)myAgent).getDistance(id_lastSection);
+			
+			this.updateTravelTime(lastTravelTime, id_lastSection, 0f);
+		}
+		
+		return (float)Math.ceil(travelTime);
 	}
 	
-	private void updateTravelTime(float travelTime, String id_section)
+	private void updateTravelTime(float travelTime, String id_section, float up)
 	{
-		((CarGPS)myAgent).setDistance(id_section, travelTime + 2f);
+		((BicycleGPS)myAgent).setDistance(id_section, travelTime + up);
 	}
 	
-	private void sendReply(int travelTime, AID receiver) 
+	private void sendReply(float travelTime, AID receiver) 
 			throws IOException
 	{
 		Object[] ttr_content = {

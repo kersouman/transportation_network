@@ -1,4 +1,4 @@
-package gps;
+package bicyclegps;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import map.Junction;
 import support.Dijkstra;
 
 @SuppressWarnings("serial")
-public class CarItinerary extends CyclicBehaviour 
+public class BicycleItinerary extends CyclicBehaviour 
 {
 
 	@Override
@@ -20,20 +20,17 @@ public class CarItinerary extends CyclicBehaviour
 	{
 		ACLMessage gpsRequest = myAgent.receive(
 				new MessageTemplate(
-						new CarGPSRequest()));
+						new BicycleGPSRequest()));
 		
 		if (gpsRequest == null)
 		{
-			System.out.println("GPS blocks");
 			block();
 		}
 		else
 		{
-			System.out.println("GPS tries to resolve the itinerary");
 			try 
 			{
 				this.computeAndSendPath(gpsRequest);
-				System.out.println("GPS sent reply with path");
 			} 
 			catch (UnreadableException | IOException e) {e.printStackTrace();}
 		}
@@ -49,7 +46,7 @@ public class CarItinerary extends CyclicBehaviour
 			throws IOException
 	{
 		Object[] content = {
-			"GPS reply",
+			"Path reply",
 			path,
 			this.pathTime(path)
 		};
@@ -71,8 +68,8 @@ public class CarItinerary extends CyclicBehaviour
 		};
 		
 		Dijkstra dijkstra = 
-				new Dijkstra(((CarGPS)myAgent).getJunctions(),
-						((CarGPS)myAgent).getDistances());
+				new Dijkstra(((BicycleGPS)myAgent).getJunctions(),
+						((BicycleGPS)myAgent).getDistances());
 		dijkstra.execute(limits[0]);
 		
 		return dijkstra.getPath(limits[1]);
@@ -84,9 +81,9 @@ public class CarItinerary extends CyclicBehaviour
 		
 		for (int i = 0; i < path.size() - 1; i++)
 		{
-			Junction j1 = ((CarGPS)myAgent).getJunctions().get(path.get(i));
-			Junction j2 = ((CarGPS)myAgent).getJunctions().get(path.get(i+1));
-			time += (int)((CarGPS)myAgent).getDistance(
+			Junction j1 = ((BicycleGPS)myAgent).getJunctions().get(path.get(i));
+			Junction j2 = ((BicycleGPS)myAgent).getJunctions().get(path.get(i+1));
+			time += (int)((BicycleGPS)myAgent).getDistance(
 					Junction.getCommonSectionId(j1, j2));
 		}
 		

@@ -1,25 +1,27 @@
-package gps;
+package bicycle;
 
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate.MatchExpression;
 import jade.lang.acl.UnreadableException;
 
 @SuppressWarnings("serial")
-public class TravelTimeRequest implements MatchExpression {
+public class PathReply implements MatchExpression 
+{
 
 	@Override
-	public boolean match(ACLMessage ttReq) 
+	public boolean match(ACLMessage pathReply) 
 	{
 		try 
 		{
-			if (ttReq.getPerformative() == ACLMessage.REQUEST &&
-					((String[])ttReq.getContentObject())[0]
-							.equals("Travel time request"))
+			if (pathReply.getPerformative() == ACLMessage.AGREE &&
+					((Object[])pathReply.getContentObject())[0]
+							.equals("Path reply"))
 			{
 				return true;
 			}
-		}
+		} 
 		catch (UnreadableException e) {e.printStackTrace();}
+		
 		return false;
 	}
 

@@ -42,7 +42,7 @@ public class Section implements Serializable
 		return false;
 	}
 	
-	public Point getPointHQ (String hoq)
+	public Point getPointHQ(String hoq)
 	{
 		Point phoq = null;
 		if (hoq.equals("h"))
