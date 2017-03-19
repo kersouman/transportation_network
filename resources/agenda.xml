@@ -1,24 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <agendas>
-	<agenda id="NS">
+	<agenda id="SACO">
 		<entry>
 			<tick>540</tick>
-			<origin>N118g</origin>
-			<destination>Supélec</destination>
+			<origin>Saint-Aubin</origin>
+			<destination>CEA Orme</destination>
+		</entry>
+	</agenda>
+	<agenda id="SACS">
+		<entry>
+			<tick>540</tick>
+			<origin>Saint-Aubin</origin>
+			<destination>CEA Saclay</destination>
 		</entry>
 	</agenda>
 	<agenda id="SAS">
 		<entry>
 			<tick>540</tick>
 			<origin>Saint-Aubin</origin>
-			<destination>Supélec</destination>
+			<destination>Supelec</destination>
 		</entry>
 	</agenda>
-	<agenda id="NSA">
+	<agenda id="SANI">
+		<entry>
+			<tick>540</tick>
+			<origin>Saint-Aubin</origin>
+			<destination>Nano-Innov</destination>
+		</entry>
+	</agenda>
+	<agenda id="SASu">
+		<entry>
+			<tick>540</tick>
+			<origin>Saint-Aubin</origin>
+			<destination>Supoptique</destination>
+		</entry>
+	</agenda>
+	<agenda id="SAE">
+		<entry>
+			<tick>540</tick>
+			<origin>Saint-Aubin</origin>
+			<destination>EDF</destination>
+		</entry>
+	</agenda>
+	<agenda id="SAX">
+		<entry>
+			<tick>540</tick>
+			<origin>Saint-Aubin</origin>
+			<destination>X</destination>
+		</entry>
+	</agenda>	
+	<agenda id="CCO">
+		<entry>
+			<tick>540</tick>
+			<origin>Christ</origin>
+			<destination>CEA Orme</destination>
+		</entry>
+	</agenda>
+	<agenda id="CCS">
+		<entry>
+			<tick>540</tick>
+			<origin>Christ</origin>
+			<destination>CEA Saclay</destination>
+		</entry>
+	</agenda>
+	<agenda id="CS">
+		<entry>
+			<tick>540</tick>
+			<origin>Christ</origin>
+			<destination>Supelec</destination>
+		</entry>
+	</agenda>
+	<agenda id="CNI">
+		<entry>
+			<tick>540</tick>
+			<origin>Christ</origin>
+			<destination>Nano-Innov</destination>
+		</entry>
+	</agenda>
+	<agenda id="CSu">
+		<entry>
+			<tick>540</tick>
+			<origin>Christ</origin>
+			<destination>Supoptique</destination>
+		</entry>
+	</agenda>
+	<agenda id="CE">
+		<entry>
+			<tick>540</tick>
+			<origin>Christ</origin>
+			<destination>EDF</destination>
+		</entry>
+	</agenda>
+	<agenda id="CX">
+		<entry>
+			<tick>540</tick>
+			<origin>Christ</origin>
+			<destination>X</destination>
+		</entry>
+	</agenda>
+	<agenda id="NCO">
 		<entry>
 			<tick>540</tick>
 			<origin>N118g</origin>
-			<destination>Saint-Aubin</destination>
+			<destination>CEA Orme</destination>
+		</entry>
+	</agenda>
+	<agenda id="NCS">
+		<entry>
+			<tick>540</tick>
+			<origin>N118g</origin>
+			<destination>CEA Saclay</destination>
+		</entry>
+	</agenda>
+	<agenda id="NS">
+		<entry>
+			<tick>540</tick>
+			<origin>N118g</origin>
+			<destination>Supelec</destination>
+		</entry>
+	</agenda>
+	<agenda id="NNI">
+		<entry>
+			<tick>540</tick>
+			<origin>N118g</origin>
+			<destination>Nano-Innov</destination>
+		</entry>
+	</agenda>
+	<agenda id="NSu">
+		<entry>
+			<tick>540</tick>
+			<origin>N118g</origin>
+			<destination>Supoptique</destination>
+		</entry>
+	</agenda>
+	<agenda id="NE">
+		<entry>
+			<tick>540</tick>
+			<origin>N118g</origin>
+			<destination>EDF</destination>
+		</entry>
+	</agenda>
+	<agenda id="NX">
+		<entry>
+			<tick>540</tick>
+			<origin>N118g</origin>
+			<destination>X</destination>
+		</entry>
+	</agenda>
+	<agenda id="MCO">
+		<entry>
+			<tick>540</tick>
+			<origin>Massy</origin>
+			<destination>CEA Orme</destination>
+		</entry>
+	</agenda>
+	<agenda id="MCS">
+		<entry>
+			<tick>540</tick>
+			<origin>Massy</origin>
+			<destination>CEA Saclay</destination>
+		</entry>
+	</agenda>
+	<agenda id="MS">
+		<entry>
+			<tick>540</tick>
+			<origin>Massy</origin>
+			<destination>Supelec</destination>
+		</entry>
+	</agenda>
+	<agenda id="MNI">
+		<entry>
+			<tick>540</tick>
+			<origin>Massy</origin>
+			<destination>Nano-Innov</destination>
+		</entry>
+	</agenda>
+	<agenda id="MSu">
+		<entry>
+			<tick>540</tick>
+			<origin>Massy</origin>
+			<destination>Supoptique</destination>
+		</entry>
+	</agenda>
+	<agenda id="ME">
+		<entry>
+			<tick>540</tick>
+			<origin>Massy</origin>
+			<destination>EDF</destination>
+		</entry>
+	</agenda>
+	<agenda id="MX">
+		<entry>
+			<tick>540</tick>
+			<origin>Massy</origin>
+			<destination>X</destination>
 		</entry>
 	</agenda>
 </agendas>

@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.jdom2.JDOMException;
 
@@ -31,56 +32,50 @@ public class Launcher
 		map.Map map = new map.Map("roads", "junctions");
 		Map<String, HashMap<Integer, Junction[]>> agendas =
 				AgendaInterface.generateAgendas("agenda", map.getVertices());
-		
-		
+
 		Object[] clockInit = {
-				510
+				400
 		};
-		Object[] rmInit = {
-				1500
-		};
-		Object[] travelerInit0 = {
-				agendas.get("NS"),
-				map,
-				0
-		};
-		Object[] travelerInit1 = {
-				agendas.get("SAS"),
-				map,
-				0
-		};
-		Object[] travelerInit2 = {
-				agendas.get("NSA"),
-				map,
-				0
-		};
+		AgentController clock =
+				mc.createNewAgent("clock", Clock.class.getName(), clockInit);
+		clock.start();
+		
 		Object[] carGPSInit = {
 				map
 		};
-		
-		AgentController clock =
-				mc.createNewAgent("clock", Clock.class.getName(), clockInit);
 		AgentController carGPS = 
 				mc.createNewAgent("carGPS", CarGPS.class.getName(), carGPSInit);
+		carGPS.start();
+		
+		Random rand = new Random();
+		int travelerByBatch = 50;
+		String[] agendaId = {
+				"SACO","SACS","SAS","SANI","SASu","SAE","SAX",
+				"CCO","CCS","CS","CNI","CSu","CE","CX",
+				"NCO","NCS","NS","NNI","NSu","NE","NX",
+				"MCO","MCS","MS","MNI","MSu","ME","MX"
+		};
+		
+		Object[] rmInit = {
+				travelerByBatch*agendaId.length
+		};
 		AgentController resultsManager =
 				mc.createNewAgent("rm", ResultsManager.class.getName(), rmInit);
-		AgentController[] car  = new AgentController[500];
-		AgentController[] car1 = new AgentController[500];
-		AgentController[] car2 = new AgentController[500];
-		for (int i = 0; i < 500; i++)
-		{
-			car[i]  = mc.createNewAgent("car " + i, Car.class.getName(), travelerInit0);
-			car1[i] = mc.createNewAgent("car1 " + i, Car.class.getName(), travelerInit1);
-			car2[i] = mc.createNewAgent("car2 " + i, Car.class.getName(), travelerInit2);
-		}
-		clock.start();
-		carGPS.start();
 		resultsManager.start();
-		for (int i = 0; i < 500; i++)
+		
+		for (String id: agendaId)
 		{
-			car[i].start();
-			car1[i].start();
-			car2[i].start();
+			for (int i = 0; i < travelerByBatch; i++)
+			{
+				Object[] travelerInit = {
+						agendas.get(id),
+						map,
+						0//rand.nextInt(60)
+				};
+				AgentController car = 
+						mc.createNewAgent(id + i, Car.class.getName(), travelerInit);
+				car.start();
+			}
 		}
 	}
 	
